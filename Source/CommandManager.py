@@ -7,14 +7,15 @@
 #
 
 import chatexchange as ce
+import threading
 
-class CommandManager(self):
+class CommandManager:
     def __init__(self, commands):
         self.commands = commands
         self.running_commands = []
 
     def run_command(self, command):
-        command_thread = threading.Thread(target=command.run())
+        command_thread = threading.Thread(target=command.run)
         self.running_commands.append([command, command_thread])
         command_thread.start()
 

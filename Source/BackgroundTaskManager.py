@@ -12,4 +12,10 @@ class BackgroundTaskManager:
 
     def start_tasks(self):
         for each_task in self.tasks:
-        
+            each_task.start_task()
+
+    def stop_tasks(self):
+        for each_task in self.tasks:
+            each_task.stop_task()
+
+     

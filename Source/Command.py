@@ -20,7 +20,7 @@ class Command:
     finished = False
 
     def reply(self, text, length_check=True):
-        self.message.reply(text, length_check=length_check)
+        self.message.message.reply(text, length_check=length_check)
         
     def post(self, text, length_check=True):
         self.message.room.send_message(text, length_check=length_check)

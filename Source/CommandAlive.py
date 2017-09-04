@@ -1,8 +1,8 @@
 from Command import *
 
 class CommandAlive(Command):
-    def usage(self):
+    def usage():
         return ["alive", "status"]
 
     def run(self):
-        reply("Yes")
+        self.reply("Yes")

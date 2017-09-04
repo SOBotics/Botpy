@@ -9,15 +9,18 @@
 import chatexchange as ce
 import Chatcommunicate
 from CommandManager import *
+from BackgroundTaskManager import *
 
 class Bot:
-    def __init__(self, bot_name, client, room_ids, bot_link="https://example.com", github_link="https://github.com"):
+    def __init__(self, bot_name, client, commands, room_ids, background_tasks, bot_link="https://example.com", github_link="https://github.com"):
         self.name = bot_name
+        self.commands = commands
         self.client = client
         self.rooms = []
         self.room_ids = room_ids
         self.bot_link = bot_link
         self.github_link = github_link
+        self.background_task_manager = BackgroundTaskManager(background_tasks)
         self.chatcommunicate = Chatcommunicate.Chatcommunicate(bot_name, CommandManager(commands)) 
 
     def join_rooms(self):
@@ -40,6 +43,8 @@ class Bot:
     def start_bot(self):
         self.join_rooms()
         self.watch_rooms(self.chatcommunicate.handle_message)
+        self.background_task_manager.start_tasks()
 
     def stop_bot(self):
+        self.background_task_manager.stop_tasks()
         self.leave_rooms() 

@@ -13,6 +13,7 @@ import threading
 class Chatcommunicate:
     def __init__(self, bot_name, command_manager):
         self.bot_name = bot_name
+        self.command_manager = command_manager
         self.short_name = bot_name[:-(len(bot_name) - 4)]
    
     def handle_message(self, message, _):
@@ -21,7 +22,7 @@ class Chatcommunicate:
             return
 
         try:
-            print("(%s) %s: %s" % (message.room.name, message.user.name, message.content)
+            print("(%s) %s: %s" % (message.room.name, message.user.name, message.content))
         except UnicodeEncodeError as unicode_err:
             print("Unicode encode error occurred: " + str(unicode_err))
 
@@ -30,5 +31,5 @@ class Chatcommunicate:
         except AttributeError:
             return
 
-        if content_split[0].startswith(self.short_name.lower())
-            command_manager.handle_command(message)
+        if content_split[0].startswith(self.short_name.lower()):
+            self.command_manager.handle_command(message)

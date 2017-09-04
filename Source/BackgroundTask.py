@@ -20,7 +20,7 @@ class BackgroundTask:
 
     def start_task(self):
         self.stop_event.clear()
-        background_thread = threading.Thread(target=call_function)
+        background_thread = threading.Thread(target=self.call_function)
         background_thread.start()
 
     def stop_task(self):
