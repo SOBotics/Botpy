@@ -8,6 +8,7 @@
 
 import chatexchange as ce
 import Chatcommunicate
+from CommandManager import *
 
 class Bot:
     def __init__(self, bot_name, client, room_ids, bot_link="https://example.com", github_link="https://github.com"):
@@ -17,7 +18,7 @@ class Bot:
         self.room_ids = room_ids
         self.bot_link = bot_link
         self.github_link = github_link
-        self.chatcommunicate = Chatcommunicate.Chatcommunicate(bot_name, commands) 
+        self.chatcommunicate = Chatcommunicate.Chatcommunicate(bot_name, CommandManager(commands)) 
 
     def join_rooms(self):
         for each_id in self.room_ids:
