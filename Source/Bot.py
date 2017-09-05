@@ -7,10 +7,14 @@
 #
 
 import chatexchange as ce
-import Chatcommunicate
+from Chatcommunicate import *
+from CommandAlive import *
+from CommandStop import *
 from CommandManager import *
 from BackgroundTaskManager import *
 from BackgroundTask import *
+from Utilities import *
+import Utilities
 
 class Bot:
     def __init__(self, bot_name, client, commands, room_ids, background_tasks=[], bot_link="https://example.com", github_link="https://github.com"):
@@ -22,7 +26,7 @@ class Bot:
         self.bot_link = bot_link
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
-        self.chatcommunicate = Chatcommunicate.Chatcommunicate(bot_name, CommandManager(commands)) 
+        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands)) 
 
     def add_background_task(self, background_task, interval=30, restart=True):
         self.background_task_manager.add_background_task(background_task)
@@ -31,6 +35,7 @@ class Bot:
 
     def add_essential_background_tasks(self, restart=True):
         self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands))
+        self.add_background_task(BackgroundTask(self.shutdown_check, interval=5))
 
         self.background_task_manager.restart_tasks()
 
@@ -58,4 +63,8 @@ class Bot:
 
     def stop_bot(self):
         self.background_task_manager.stop_tasks()
-        self.leave_rooms() 
+        self.leave_rooms()
+    
+    def shutdown_check(self):
+        if Utilities.should_shutdown:
+            self.stop_bot() 

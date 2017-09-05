@@ -62,7 +62,6 @@ class CommandManager:
                         return
 
     def cleanup_finished_commands(self):
-        print("Cleaning up running commands..")
         for command, command_thread in self.running_commands:
             if not command_thread.is_alive:
                 self.running_commands.remove([command, command_thread]) 

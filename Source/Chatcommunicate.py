@@ -7,7 +7,6 @@
 #
 
 import chatexchange as ce
-from Command import *
 import threading
 
 class Chatcommunicate:
