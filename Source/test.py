@@ -10,6 +10,8 @@ password = os.environ['SockPass']
 
 client = ce.Client("stackoverflow.com", email, password)
 
-bot = Bot.Bot("sock", client, [CommandAlive.CommandAlive], [123602], [BackgroundTask(CommandManager.cleanup_finished_commands)])
+bot = Bot.Bot("sock", client, [CommandAlive.CommandAlive], [123602])
+
+bot.add_essential_background_tasks()
 
 bot.start_bot()

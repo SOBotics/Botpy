@@ -10,9 +10,10 @@ import chatexchange as ce
 import Chatcommunicate
 from CommandManager import *
 from BackgroundTaskManager import *
+from BackgroundTask import *
 
 class Bot:
-    def __init__(self, bot_name, client, commands, room_ids, background_tasks, bot_link="https://example.com", github_link="https://github.com"):
+    def __init__(self, bot_name, client, commands, room_ids, background_tasks=[], bot_link="https://example.com", github_link="https://github.com"):
         self.name = bot_name
         self.commands = commands
         self.client = client
@@ -22,6 +23,16 @@ class Bot:
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
         self.chatcommunicate = Chatcommunicate.Chatcommunicate(bot_name, CommandManager(commands)) 
+
+    def add_background_task(self, background_task, interval=30, restart=True):
+        self.background_task_manager.add_background_task(background_task)
+        if restart:
+            self.background_task_manager.restart_tasks()
+
+    def add_essential_background_tasks(self, restart=True):
+        self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands))
+
+        self.background_task_manager.restart_tasks()
 
     def join_rooms(self):
         for each_id in self.room_ids:
