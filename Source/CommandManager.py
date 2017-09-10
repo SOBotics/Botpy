@@ -29,7 +29,7 @@ class CommandManager:
         for command in self.commands:
             command_usage = command.usage()
 
-            usage_index = 0
+            usage_index = -1
 
             for usage in command_usage:
                 usage_index += 1
@@ -58,10 +58,10 @@ class CommandManager:
                         match = False
 
                     if match:
-                        self.run_command(command(message, args, usage_index))
+                        self.run_command(command(self, message, args, usage_index))
                         return
 
     def cleanup_finished_commands(self):
         for command, command_thread in self.running_commands:
-            if not command_thread.is_alive:
+            if not command_thread.isAlive():
                 self.running_commands.remove([command, command_thread]) 

@@ -10,6 +10,7 @@ import chatexchange as ce
 from Chatcommunicate import *
 from CommandAlive import *
 from CommandStop import *
+from CommandListRunningCommands import *
 from CommandManager import *
 from BackgroundTaskManager import *
 from BackgroundTask import *
@@ -34,7 +35,7 @@ class Bot:
             self.background_task_manager.restart_tasks()
 
     def add_essential_background_tasks(self, restart=True):
-        self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands))
+        self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands, interval=3))
         self.add_background_task(BackgroundTask(self.shutdown_check, interval=5))
 
         self.background_task_manager.restart_tasks()

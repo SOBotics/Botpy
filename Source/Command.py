@@ -8,12 +8,13 @@
 import chatexchange as ce
 
 class Command:
-    def __init__(self, message, arguments, usageIndex=0):
+    def __init__(self, command_manager, message, arguments, usage_index=0):
+        self.command_manager = command_manager
         self.message = message
         self.arguments = arguments
-        self.usageIndex = usageIndex
+        self.usage_index = usage_index
 
-    def usage(self):
+    def usage():
         raise NotImplementedError
 
     #Whether the command has completed execution.
