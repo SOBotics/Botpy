@@ -14,6 +14,7 @@ from CommandListRunningCommands import *
 from CommandManager import *
 from BackgroundTaskManager import *
 from BackgroundTask import *
+from ChatRoom import *
 from Utilities import *
 import Utilities
 
@@ -40,26 +41,27 @@ class Bot:
 
         self.background_task_manager.restart_tasks()
 
-    def join_rooms(self):
+    def join_rooms(self, watch_callback):
+        self.rooms[:] = []
         for each_id in self.room_ids:
-            self.rooms.append(self.client.get_room(each_id))
+            self.rooms.append(ChatRoom(client, each_id, watch_callback)
 
         for each_room in self.rooms:
-            each_room.join()
-            print("Joined room " + str(each_room.id) + ".")
+            each_room.join_room()        
 
     def leave_rooms(self):
         for each_room in self.rooms:
-            each_room.leave()
-            self.rooms.remove(each_room)
+            each_room.leave_room()
 
-    def watch_rooms(self, function_callback):
+        self.rooms[:] = []
+
+    def watch_rooms(self):
         for each_room in self.rooms:
-            each_room.watch(function_callback)     
+            each_room.watch_room()
 
     def start_bot(self):
-        self.join_rooms()
-        self.watch_rooms(self.chatcommunicate.handle_message)
+        self.join_rooms(self.chatcommunicate.handle_message)
+        self.watch_rooms()
         self.background_task_manager.start_tasks()
 
     def stop_bot(self):

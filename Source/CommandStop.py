@@ -10,6 +10,7 @@ from Command import *
 import Utilities
 
 class CommandStop(Command):
+    @staticmethod
     def usage():
         return ['stop', 'shutdown']
 
