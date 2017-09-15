@@ -28,7 +28,7 @@ class Bot:
         self.bot_link = bot_link
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
-        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands)) 
+        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands, self.rooms)) 
 
     def add_background_task(self, background_task, interval=30, restart=True):
         self.background_task_manager.add_background_task(background_task)
@@ -44,7 +44,7 @@ class Bot:
     def join_rooms(self, watch_callback):
         self.rooms[:] = []
         for each_id in self.room_ids:
-            self.rooms.append(ChatRoom(client, each_id, watch_callback)
+            self.rooms.append(ChatRoom(self.client, each_id, watch_callback))
 
         for each_room in self.rooms:
             each_room.join_room()        

@@ -10,14 +10,27 @@ import chatexchange as ce
 import threading
 
 class CommandManager:
-    def __init__(self, commands):
+    def __init__(self, commands, chat_rooms):
         self.commands = commands
+        self.rooms = chat_rooms
         self.running_commands = []
 
     def run_command(self, command):
-        command_thread = threading.Thread(target=command.run)
-        self.running_commands.append([command, command_thread])
-        command_thread.start()
+        if command.privileges() == 0:
+            command_thread = threading.Thread(target=command.run)
+            self.running_commands.append([command, command_thread])
+            command_thread.start()
+            return
+
+        for each_room in self.rooms:
+            if each_room.room_id == command.message.room.id:
+                if each_room.is_user_privileged(command.message.user.id, command.privileges()):         
+                    command_thread = threading.Thread(target=command.run)
+                    self.running_commands.append([command, command_thread])
+                    command_thread.start()
+                    return
+
+        command.reply("You do not have sufficient privileges to run this command.")
 
     def handle_command(self, message):
         try:

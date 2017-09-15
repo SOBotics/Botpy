@@ -17,6 +17,9 @@ class Command:
     def usage():
         raise NotImplementedError
 
+    def privileges(self):
+        return 0
+
     #Whether the command has completed execution.
     finished = False
 
