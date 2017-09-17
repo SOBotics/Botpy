@@ -9,11 +9,14 @@
 import chatexchange as ce
 from PrivilegeType import *
 from PrivilegedChatUser import *
+import os
+import pickle
 
 class ChatRoom:
-    def __init__(self, client, room_id, function_callback):
+    def __init__(self, client, save_directory, room_id, function_callback):
         self.room_id = room_id
         self.client = client
+        self.save_directory = save_directory
         self.function_callback = function_callback
         self.privilege_types = list()
         self.privileged_users = list()
@@ -67,3 +70,31 @@ class ChatRoom:
                 return each_type
 
         return None
+
+    def save_privileged_users(self):
+        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name + "_privileged_users"
+
+        try:
+            with open(filename, "wb") as file_to_write:
+                pickle.dump(self.privileged_users, file_to_write)
+        except IOError as ioerr:
+            print("IOError occurred: ")
+            print(str(ioerr))
+        except pickle.PickleError as perr:
+            print("Pickling error occurred: ")
+            print(str(perr))
+
+    def load_privileged_users(self):
+        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name + "_privileged_users"
+
+        try:
+            with open(filename, "rb") as file_to_read:
+                self.privileged_users[:] = []
+                self.privileged_users = pickle.load(file_to_read)
+        except IOError as ioerr:
+            print("IOError occurred: ")
+            print(str(ioerr))
+        except pickle.PickleError as perr:
+            print("Pickling error occurred: ")
+            print(str(perr))
+

@@ -17,6 +17,7 @@ from BackgroundTask import *
 from ChatRoom import *
 from Utilities import *
 import Utilities
+import os
 
 class Bot:
     def __init__(self, bot_name, client, commands, room_ids, background_tasks=[], bot_link="https://example.com", github_link="https://github.com"):
@@ -28,7 +29,8 @@ class Bot:
         self.bot_link = bot_link
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
-        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands, self.rooms)) 
+        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands, self.rooms))
+        self.save_directory = os.path.expanduser("~") + "." + self.name.lower()
 
     def add_background_task(self, background_task, interval=30, restart=True):
         self.background_task_manager.add_background_task(background_task)
@@ -44,7 +46,7 @@ class Bot:
     def join_rooms(self, watch_callback):
         self.rooms[:] = []
         for each_id in self.room_ids:
-            self.rooms.append(ChatRoom(self.client, each_id, watch_callback))
+            self.rooms.append(ChatRoom(self.client, self.save_directory, each_id, watch_callback))
 
         for each_room in self.rooms:
             each_room.join_room()        
@@ -58,6 +60,10 @@ class Bot:
     def watch_rooms(self):
         for each_room in self.rooms:
             each_room.watch_room()
+
+    def add_privilege_type(self, privilege_level, privilege_name):
+        for each_room in self.rooms:
+            each_room.add_privilege_type(privilege_level, privilege_name)
 
     def start_bot(self):
         self.join_rooms(self.chatcommunicate.handle_message)
