@@ -30,7 +30,7 @@ class Bot:
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
         self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands, self.rooms))
-        self.save_directory = os.path.expanduser("~") + "." + self.name.lower()
+        self.save_directory = os.path.expanduser("~") + "/" + "." + self.name.lower() + "/"
 
     def add_background_task(self, background_task, interval=30, restart=True):
         self.background_task_manager.add_background_task(background_task)
@@ -40,6 +40,9 @@ class Bot:
     def add_essential_background_tasks(self, restart=True):
         self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands, interval=3))
         self.add_background_task(BackgroundTask(self.shutdown_check, interval=5))
+
+        for each_room in self.rooms:
+            self.add_background_task(BackgroundTask(each_room.save_privileged_users))
 
         self.background_task_manager.restart_tasks()
 
@@ -65,8 +68,13 @@ class Bot:
         for each_room in self.rooms:
             each_room.add_privilege_type(privilege_level, privilege_name)
 
+    def load_privileged_user_list(self):
+        for each_room in self.rooms:
+            each_room.load_privileged_users()
+
     def start_bot(self):
         self.join_rooms(self.chatcommunicate.handle_message)
+        self.load_privileged_user_list()
         self.watch_rooms()
         self.background_task_manager.start_tasks()
 
