@@ -7,16 +7,12 @@
 #
 
 import chatexchange as ce
-from Chatcommunicate import *
-from CommandAlive import *
-from CommandStop import *
-from CommandListRunningCommands import *
-from CommandManager import *
-from BackgroundTaskManager import *
-from BackgroundTask import *
-from ChatRoom import *
-from Utilities import *
-import Utilities
+from .Chatcommunicate import *
+from .CommandManager import *
+from .BackgroundTaskManager import *
+from .BackgroundTask import *
+from .ChatRoom import *
+from . import Utilities
 import os
 
 class Bot:

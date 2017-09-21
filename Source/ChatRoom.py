@@ -7,8 +7,8 @@
 #
 
 import chatexchange as ce
-from PrivilegeType import *
-from PrivilegedChatUser import *
+from .PrivilegeType import *
+from .PrivilegedChatUser import *
 import os
 import pickle
 

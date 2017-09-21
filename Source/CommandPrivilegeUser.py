@@ -6,7 +6,7 @@
 #
 #
 
-from Command import *
+from .Command import *
 
 class CommandPrivilegeUser(Command):
     def usage():
@@ -16,4 +16,4 @@ class CommandPrivilegeUser(Command):
         return 1
 
     def run(self):
-        
+     

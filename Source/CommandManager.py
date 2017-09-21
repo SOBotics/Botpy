@@ -71,7 +71,12 @@ class CommandManager:
                         match = False
 
                     if match:
-                        self.run_command(command(self, message, args, usage_index))
+                        for each_room in self.rooms:
+                            if each_room.room_id == command.message.room.id:
+                                command_room = each_room
+                                break
+
+                        self.run_command(command(self, message, command_room, args, usage_index))
                         return
 
     def cleanup_finished_commands(self):
