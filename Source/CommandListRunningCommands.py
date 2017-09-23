@@ -6,7 +6,7 @@
 #
 #
 
-from Command import *
+from .Command import *
 import tabulate
 import re
 

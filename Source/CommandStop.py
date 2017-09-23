@@ -6,8 +6,8 @@
 #
 #
 
-from Command import *
-import Utilities
+from .Command import *
+from . import Utilities
 
 class CommandStop(Command):
     @staticmethod

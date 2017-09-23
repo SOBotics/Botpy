@@ -1,1 +1,3 @@
-from .Source/Bot import Bot
+"""
+The Botpy package
+"""
