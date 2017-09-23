@@ -72,7 +72,7 @@ class CommandManager:
 
                     if match:
                         for each_room in self.rooms:
-                            if each_room.room_id == command.message.room.id:
+                            if each_room.room_id == message.room.id:
                                 command_room = each_room
                                 break
 
