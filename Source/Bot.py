@@ -25,7 +25,7 @@ class Bot:
         self.bot_link = bot_link
         self.github_link = github_link
         self.background_task_manager = BackgroundTaskManager(background_tasks)
-        self.chatcommunicate = Chatcommunicate(bot_name, CommandManager(commands, self.rooms))
+        self.chatcommunicate = Chatcommunicate(self.name, CommandManager(commands, self.rooms))
         self.save_directory = os.path.expanduser("~") + "/" + "." + self.name.lower() + "/"
 
     def add_background_task(self, background_task, interval=30, restart=True):
