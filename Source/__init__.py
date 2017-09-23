@@ -1,3 +1,10 @@
+import sys
+from . import PrivilegedChatUser
+from . import PrivilegeType
+
+sys.modules['PrivilegedChatUser'] = PrivilegedChatUser
+sys.modules['PrivilegeType'] = PrivilegeType
+
 from .Bot import Bot
 from .BackgroundTask import BackgroundTask
 from .BackgroundTaskManager import BackgroundTaskManager
@@ -12,3 +19,6 @@ from .CommandStop import CommandStop
 from .PrivilegeType import PrivilegeType
 from .PrivilegedChatUser import PrivilegedChatUser
 from . import Utilities
+
+
+
