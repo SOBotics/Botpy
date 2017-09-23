@@ -76,7 +76,7 @@ class CommandManager:
                                 command_room = each_room
                                 break
 
-                        self.run_command(command(self, message, command_room, args, usage_index))
+                        self.run_command(command(self, command_room, message, args, usage_index))
                         return
 
     def cleanup_finished_commands(self):
