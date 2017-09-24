@@ -10,3 +10,8 @@ Botpy does not support any versions of Python before Python3. To install Botpy, 
 
 or
     sudo -H pip3 install BotpySE
+
+# Changelog
+
+ - **v0.2.4**: Another possible bug fix for not allowing names with more than 4 chars.
+ - **v0.2.3**: Possible bug fix for a bug which does not allow bot names with more than 4 letters.

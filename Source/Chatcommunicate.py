@@ -13,7 +13,7 @@ class Chatcommunicate:
     def __init__(self, bot_name, command_manager):
         self.bot_name = bot_name
         self.command_manager = command_manager
-        self.short_name = bot_name[:-(len(bot_name) - 4)]
+        self.short_name = bot_name[:4]
    
     def handle_message(self, message, _):
         if not isinstance(message, ce.events.MessagePosted):
