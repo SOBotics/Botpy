@@ -72,7 +72,7 @@ class ChatRoom:
         return None
 
     def save_privileged_users(self):
-        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name + "_privileged_users"
+        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name.replace(" ", "_") + "_privileged_users"
 
         try:
             with open(filename, "wb") as file_to_write:
@@ -85,7 +85,7 @@ class ChatRoom:
             print(str(perr))
 
     def load_privileged_users(self):
-        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name + "_privileged_users"
+        filename = self.save_directory + "room_" + str(self.room_id) + "_name_" + self.room.name.replace(" ", "_") + "_privileged_users"
 
         try:
             with open(filename, "rb") as file_to_read:

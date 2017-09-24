@@ -28,6 +28,7 @@ class Chatcommunicate:
         try:
             content_split = message.content.lower().split()
         except AttributeError:
+            print("Attribute error occurred.")
             return
 
         if content_split[0].startswith(self.short_name.lower()):
