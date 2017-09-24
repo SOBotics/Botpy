@@ -13,5 +13,6 @@ or
 
 # Changelog
 
+ - **v0.2.5**: Finally fixed the bug fix for the bot name problem.
  - **v0.2.4**: Another possible bug fix for not allowing names with more than 4 chars.
  - **v0.2.3**: Possible bug fix for a bug which does not allow bot names with more than 4 letters.
