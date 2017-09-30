@@ -7,10 +7,12 @@ BotpySE/ChatRoom.py
 BotpySE/Chatcommunicate.py
 BotpySE/Command.py
 BotpySE/CommandAlive.py
+BotpySE/CommandAmiprivileged.py
 BotpySE/CommandListRunningCommands.py
 BotpySE/CommandManager.py
 BotpySE/CommandPrivilegeUser.py
 BotpySE/CommandStop.py
+BotpySE/CommandUnprivilegeUser.py
 BotpySE/EssentialBackgroundTasks.py
 BotpySE/PrivilegeType.py
 BotpySE/PrivilegedChatUser.py
