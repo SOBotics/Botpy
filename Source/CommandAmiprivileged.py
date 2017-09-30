@@ -6,7 +6,7 @@
 # 
 #
 
-from .Commmand import *
+from .Command import *
 
 class CommandAmiprivileged(Command):
     def usage():
