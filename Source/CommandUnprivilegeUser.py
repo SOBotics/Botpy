@@ -1,16 +1,17 @@
 #
-# CommandPrivilegeUser.py
+# CommandUnprivilegeUser.py
 # Botpy
 #
-# Created by Ashish Ahuja on 17th September 2017.
+# Created by Ashish Ahuja on 28th September 2017.
 #
 #
 
 from .Command import *
 
-class CommandPrivilegeUser(Command):
+class CommandUnprivilegeUser(Command):
+    @staticmethod
     def usage():
-        return ["privilege * *", "addpriv * *"]
+        return ["unprivilege * *", "unprivilege user * *", "remove privileges * *"]
 
     def privileges(self):
         return 1
@@ -19,7 +20,7 @@ class CommandPrivilegeUser(Command):
         for each_room in self.command_manager.rooms:
             if self.message.room.id == each_room.room_id:
                 command_room = each_room
-
+        
         user_id = int(self.args[0])
         privilege_name = self.args[1]
 
@@ -29,9 +30,5 @@ class CommandPrivilegeUser(Command):
             self.reply("Please give a valid privilege type")
             return
 
-        if command_room.is_user_privileged(user_id, privilege_type.level):
-            self.reply("The user specified already has the required privileges.")
-            return
-
-        command_room.add_privileged_user(user_id, privilege_type)
-        self.reply("The user specified has been given the privileges.")
+        command_room.remove_privileged_user(user_id, privileged_type)
+        self.reply("The user specified has been removed from the privileges specified.")
