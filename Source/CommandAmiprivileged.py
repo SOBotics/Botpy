@@ -22,7 +22,7 @@ class CommandAmiprivileged(Command):
         user_privileges = list()
 
         for each_privilege_type in command_room.privilege_types:
-            if command_room.is_user_privileged(user_id, each_privilege_type):
+            if command_room.is_user_privileged(user_id, each_privilege_type.level):
                 user_privileges.append(each_privilege_type.name)
 
         if len(user_privileges) == 0:

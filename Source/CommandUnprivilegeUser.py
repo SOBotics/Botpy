@@ -21,8 +21,8 @@ class CommandUnprivilegeUser(Command):
             if self.message.room.id == each_room.room_id:
                 command_room = each_room
         
-        user_id = int(self.args[0])
-        privilege_name = self.args[1]
+        user_id = int(self.arguments[0])
+        privilege_name = self.arguments[1]
 
         privilege_type = command_room.get_privilege_type_by_name(privilege_name)
 
