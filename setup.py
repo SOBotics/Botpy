@@ -8,4 +8,5 @@ setup (
     author = "Ashish Ahuja",
     author_email = "ashish.ahuja@sobotics.org",
     url = "https://github.com/SOBotics/Botpy",
+    install_requires=['chatexchange', 'tabulate']
 )
