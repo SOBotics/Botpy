@@ -69,10 +69,9 @@ class CommandManager:
                     min_count = (len(usage_components) - 1) if (usage_components[-1] == '...') else len(usage_components)
                     if len(message_content) < min_count:
                         match = False
-
-                    if match:
-                        self.run_command(command(self, message, args, usage_index))
-                        return
+                if match:
+                    self.run_command(command(self, message, args, usage_index))
+                    return
 
     def cleanup_finished_commands(self):
         for command, command_thread in self.running_commands:
