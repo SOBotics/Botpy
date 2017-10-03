@@ -73,10 +73,12 @@ class Bot:
         self.load_privileged_user_list()
         self.watch_rooms()
         self.background_task_manager.start_tasks()
+        self.is_alive = True
 
     def stop_bot(self):
         self.background_task_manager.stop_tasks()
         self.leave_rooms()
+        self.is_alive = False
     
     def shutdown_check(self):
         if Utilities.should_shutdown:
