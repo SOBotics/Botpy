@@ -21,3 +21,6 @@ from .PrivilegedChatUser import PrivilegedChatUser
 from . import Utilities
 from .CommandUnprivilegeUser import CommandUnprivilegeUser
 from .CommandAmiprivileged import CommandAmiprivileged
+from .CommandListPrivilegedUsers import CommandListPrivilegedUsers
+
+all_commands = [CommandAlive, CommandListRunningCommands, CommandPrivilegeUser, CommandStop, CommandUnprivilegeUser, CommandAmiprivileged, CommandListPrivilegedUsers]

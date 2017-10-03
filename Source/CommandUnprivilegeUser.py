@@ -30,5 +30,5 @@ class CommandUnprivilegeUser(Command):
             self.reply("Please give a valid privilege type")
             return
 
-        command_room.remove_privileged_user(user_id, privileged_type)
+        command_room.remove_privileged_user(user_id, privilege_type)
         self.reply("The user specified has been removed from the privileges specified.")

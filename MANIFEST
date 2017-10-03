@@ -8,6 +8,7 @@ BotpySE/Chatcommunicate.py
 BotpySE/Command.py
 BotpySE/CommandAlive.py
 BotpySE/CommandAmiprivileged.py
+BotpySE/CommandListPrivilegedUsers.py
 BotpySE/CommandListRunningCommands.py
 BotpySE/CommandManager.py
 BotpySE/CommandPrivilegeUser.py

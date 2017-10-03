@@ -13,6 +13,7 @@ or
 
 # Changelog
 
+ - **v0.3.5**: Add a command to list privileged users.
  - **v0.3.4**: (Possible) Critical bug fix in command manager.
  - **v0.3.3**: Fix a couple of exceptions.
  - **v0.3.2**: Fix a bug in command initialization. 
