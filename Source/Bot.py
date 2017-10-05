@@ -87,5 +87,7 @@ class Bot:
 
     def reboot_check(self):
         if Utilities.should_reboot:
+            Utilities.should_reboot = False
             self.stop_bot()
             self.start_bot() 
+            self.add_essential_background_tasks()
