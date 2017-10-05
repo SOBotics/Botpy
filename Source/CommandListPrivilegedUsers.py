@@ -20,7 +20,7 @@ class CommandListPrivilegedUsers(Command):
         
         privilege_list = list()
 
-        for each_user in commmand_room.privileged_users:
+        for each_user in command_room.privileged_users:
             if each_user.room_id == message.room.id:
                 privilege_list.append([each_user.user_id, each_user.privilege_type.name])
 

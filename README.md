@@ -13,6 +13,7 @@ or
 
 # Changelog
 
+ - **v0.3.7**: Add a command to reboot the bot.
  - **v0.3.6**: Add a parameter in the Bot class to indicate whether the bot is alive or not.
  - **v0.3.5**: Add a command to list privileged users.
  - **v0.3.4**: (Possible) Critical bug fix in command manager.

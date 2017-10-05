@@ -10,7 +10,7 @@ from .Command import *
 
 class CommandAmiprivileged(Command):
     def usage():
-        return ["amiprivileged", "privileged", "doihaveprivs"]
+        return ["amiprivileged", "doihaveprivs", "privileges"]
 
     def run(self):
         user_id = self.message.user.id

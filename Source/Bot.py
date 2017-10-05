@@ -69,11 +69,11 @@ class Bot:
             each_room.load_privileged_users()
 
     def start_bot(self):
+        self.is_alive = True
         self.join_rooms(self.chatcommunicate.handle_message)
         self.load_privileged_user_list()
         self.watch_rooms()
         self.background_task_manager.start_tasks()
-        self.is_alive = True
 
     def stop_bot(self):
         self.background_task_manager.stop_tasks()
@@ -82,4 +82,9 @@ class Bot:
     
     def shutdown_check(self):
         if Utilities.should_shutdown:
-            self.stop_bot() 
+            self.stop_bot()
+
+    def reboot_check(self):
+        if Utilities.should_reboot:
+            self.stop_bot()
+            self.start_bot() 

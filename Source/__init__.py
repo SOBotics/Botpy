@@ -22,5 +22,6 @@ from . import Utilities
 from .CommandUnprivilegeUser import CommandUnprivilegeUser
 from .CommandAmiprivileged import CommandAmiprivileged
 from .CommandListPrivilegedUsers import CommandListPrivilegedUsers
+from .CommandReboot import CommandReboot
 
-all_commands = [CommandAlive, CommandListRunningCommands, CommandPrivilegeUser, CommandStop, CommandUnprivilegeUser, CommandAmiprivileged, CommandListPrivilegedUsers]
+all_commands = [CommandAlive, CommandListRunningCommands, CommandPrivilegeUser, CommandStop, CommandUnprivilegeUser, CommandAmiprivileged, CommandListPrivilegedUsers, CommandReboot]

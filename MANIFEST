@@ -17,6 +17,7 @@ BotpySE/CommandUnprivilegeUser.py
 BotpySE/EssentialBackgroundTasks.py
 BotpySE/PrivilegeType.py
 BotpySE/PrivilegedChatUser.py
+BotpySE/Reporter.py
 BotpySE/Utilities.py
 BotpySE/__init__.py
 BotpySE/test.py
