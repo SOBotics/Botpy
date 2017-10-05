@@ -13,6 +13,7 @@ or
 
 # Changelog
 
+ - **v0.3.9**: Missed uploading a file.
  - **v0.3.8**: Fix a bug in v0.3.7.
  - **v0.3.7**: Add a command to reboot the bot.
  - **v0.3.6**: Add a parameter in the Bot class to indicate whether the bot is alive or not.

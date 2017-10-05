@@ -12,6 +12,7 @@ BotpySE/CommandListPrivilegedUsers.py
 BotpySE/CommandListRunningCommands.py
 BotpySE/CommandManager.py
 BotpySE/CommandPrivilegeUser.py
+BotpySE/CommandReboot.py
 BotpySE/CommandStop.py
 BotpySE/CommandUnprivilegeUser.py
 BotpySE/EssentialBackgroundTasks.py
