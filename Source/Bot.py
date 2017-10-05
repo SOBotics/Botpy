@@ -36,6 +36,7 @@ class Bot:
     def add_essential_background_tasks(self, restart=True):
         self.add_background_task(BackgroundTask(self.chatcommunicate.command_manager.cleanup_finished_commands, interval=3))
         self.add_background_task(BackgroundTask(self.shutdown_check, interval=5))
+        self.add_background_task(BackgroundTask(self.reboot_check, interval=5))
 
         for each_room in self.rooms:
             self.add_background_task(BackgroundTask(each_room.save_privileged_users))
