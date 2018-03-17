@@ -4,7 +4,8 @@ BotpySE/BackgroundTask.py
 BotpySE/BackgroundTaskManager.py
 BotpySE/Bot.py
 BotpySE/ChatRoom.py
-BotpySE/Chatcommunicate.py
+BotpySE/ChatUser.py
+BotpySE/Client.py
 BotpySE/Command.py
 BotpySE/CommandAlive.py
 BotpySE/CommandAmiprivileged.py

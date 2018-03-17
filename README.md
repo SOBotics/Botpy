@@ -13,6 +13,8 @@ or
 
 # Changelog
 
+ - **v0.5.0**: Huge overhaul; a lot has changed. Most classes now inherited from ChatExchange.
+ - **v0.4.3**: Misc Changes
  - **v0.3.10**: A bug fix in the reboot check background task.
  - **v0.3.9**: Missed uploading a file.
  - **v0.3.8**: Fix a bug in v0.3.7.

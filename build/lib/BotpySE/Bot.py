@@ -34,7 +34,6 @@ class Bot(ce.client.Client):
         self.save_directory = os.path.expanduser("~") + "/" + "." + self.name.lower() + "/"
         self._users = list()
         self._rooms = list()
-        self._storage_prefix = os.path.expanduser("~") + "/" + self.name.lower() + "/" 
         
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
@@ -139,7 +138,7 @@ class Bot(ce.client.Client):
                 print(str(perr)) 
 
     def _convert_to_save_filename(self, id):
-        return self._storage_prefix + _self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
+        return self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
 
     def get_room(self, room_id, **attrs_to_set):
         return self._get_and_set_deduplicated_list(
