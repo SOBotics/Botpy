@@ -12,33 +12,154 @@ from .BackgroundTask import *
 from . import ChatRoom
 from . import ChatUser
 from . import Utilities
+from . import Redunda
 
 import os
-import pickle
+import sys
 import json
 import jsonpickle as jp
+import pyRedunda as redunda
 
 class Bot(ce.client.Client):
     def __init__(self, bot_name, commands, room_ids, background_tasks=[], host='stackexchange.com', email=None, password=None):
         super().__init__(host, email, password)
 
-        background_tasks.append(BackgroundTask(self._shutdown_check, interval=5))
-        background_tasks.append(BackgroundTask(self._reboot_check, interval=5))
+        background_tasks.append(BackgroundTask(self._stop_reason_check, interval=5))
         background_tasks.append(BackgroundTask(self._save_users, interval=60))
 
         self.name = bot_name
         self.is_alive = False
+        self.at_standby = False
         self._ids = room_ids
         self.commands = commands
         self._command_manager = CommandManager(commands)
-        self.save_directory = os.path.expanduser("~") + "/" + "." + self.name.lower() + "/"
         self._users = list()
         self._rooms = list()
-        self._storage_prefix = os.path.expanduser("~") + "/" + self.name.lower() + "/" 
+        self._storage_prefix = os.path.expanduser("~") + "/." + self.name.lower() + "/"
+        self._version = None
+        self._location = None 
         
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
- 
+
+        # Redunda storage
+        self._redunda = None
+        self._redunda_key = None
+        self._sync_files = list()
+        self._using_redunda = False
+        self._redunda_task_manager = None
+
+    def set_room_owner_privs_max(self, ids=[]):
+        """
+        Sets room owner privileges to maximum in all rooms.
+
+        Keyword arguments:
+        ids -- Sets maximum privs for only these rooms if specified.
+        """
+
+        room_ids = list()
+        if len(ids) > 0:
+            if not all(isinstance(x, int) for x in ids):
+                raise TypeError('Bot.set_room_owner_privs_max: Argument "ids" should only consist Integers.')
+            room_ids = ids
+        else:
+            room_ids = self._ids
+
+        for id in room_ids:
+            room = self.get_room(id)
+            max_privs = room.get_max_privileges()
+            for user in room.owners: 
+                if max_privs is not None:
+                    user.change_privilege_level(max_privs) 
+
+    def set_storage_prefix(self, new_prefix):
+        """
+        Sets a new path for the bot's data files to be stored.
+        """
+        self._storage_prefix = new_prefix
+
+    def set_bot_version(self, bot_version):
+        """
+        Sets a new bot version. Argument should be of type str.
+        """
+        if not isinstance(bot_version, str):
+            raise TypeError('Bot.set_botversion: "bot_version" argument must be of type str!')
+        self._version = bot_version
+
+    def set_bot_location(self, new_location):
+        """
+        Sets a new location.
+        """
+        self._location = new_location
+
+    def set_redunda_key(self, key):
+        """
+        Sets Redunda key necessary to use Redunda.
+        """
+        if not isinstance(key, str):
+            raise TypeError('Bot.set_redundakey: "key" is not of type str!')
+        self._redunda_key = key
+
+    def redunda_init(self, file_sync=True, bot_version=None):
+        """
+        Initializes the self._redunda object for further use.
+
+        Keyword arguments:
+        file_sync -- specifies whether data files should be synced with Redunda (default: True).
+        bot_version -- specifies the version to be sent to Redunda (default: self._version)
+
+        Returns True on success.
+        """
+        if bot_version is None:
+            bot_version = self._version
+
+        if not isinstance(bot_version, str):
+            raise TypeError('Bot.redunda_init: "bot_version" is not of type str!')
+        if not isinstance(self._redunda_key, str):
+            raise TypeError('Bot.redunda_init: "self._redunda_key" is not of type str!')
+
+        if (self._redunda_key is None) or (bot_version is None):
+            return False
+        
+        if file_sync:
+            if not isinstance(self._sync_files, list):
+                raise TypeError('Bot.redunda_init: "self._sync_files" is not a dictionary!') 
+            for id in self._ids:
+                self._sync_files.append({"name": self._convert_to_save_filename(id), "ispickle": False, "at_home": False})
+        self._redunda = Redunda.RedundaManager(redunda.Redunda(self._redunda_key, self._sync_files, bot_version))
+        self._redunda_task_manager = BackgroundTaskManager([BackgroundTask(self._redunda.update, interval=60)])
+
+        return True
+
+    def set_redunda_status(self, status):
+        """
+        Changes redunda status. If True, Redunda will now be actively used.
+
+        Keyword arguments:
+        status -- type Bool.
+
+        Returns True on success.
+        """
+        if type(status) is not bool:
+            raise TypeError('Bot.set_redunda_status: "status" is not of type bool!')
+        if self._redunda is None and self._redunda_task_manager is None:
+            return False
+        self._using_redunda = status
+
+        if self._using_redunda:
+            self._redunda_task_manager.start_tasks()
+        elif not self._using_redunda:
+            self._redunda_task_manager.stop_tasks()
+
+    def set_redunda_standby_callback(self, callback):
+        self._redunda.set_standby_callback(callback)
+
+    def set_redunda_standby_exit_callback(self, callback):
+        self._redunda.set_standby_exit_callback(callback)
+
+    def set_new_event_callback(self, callback):
+        self._redunda.set_new_event_callback(callback)
+     
     def join_rooms(self):
         for each_id in self._ids:
             #self._rooms.setdefault(each_id, self.get_room(each_id))
@@ -59,29 +180,62 @@ class Bot(ce.client.Client):
         for each_room in self._rooms:
             each_room.add_privilege_type(privilege_level, privilege_name)
     
-    def start_bot(self):
+    def start(self):
+        """
+        Starts the bot.
+        """
         self.is_alive = True
         self.join_rooms()
         self._load_users()
         self.watch_rooms()
         self._background_task_manager.start_tasks()
 
-    def stop_bot(self):
+        print(self.name + " started.")
+
+    def standby(self):
+        """
+        Puts the bot to standby. The bot does not respond to chat messages and shuts down all background tasks.
+        """
+        print("AAAAA")
+        if not self.at_standby:
+            self._background_task_manager.stop_tasks()
+            self.at_standby = True
+
+    def failover(self):
+        """
+        Undoes a standby; restarts all background tasks and normal functions.
+        """
+        if self.at_standby:
+            self._background_task_manager.start_tasks()
+            self.at_standby = False
+
+    def set_redunda_default_callbacks(self):
+        self.set_redunda_standby_callback(self.standby)
+        self.set_redunda_standby_exit_callback(self.failover)
+
+    def stop(self):
+        """
+        Stops the bot. Automatically called when Utilities.should_shutdown is set to True.
+        """
         self._background_task_manager.stop_tasks()
+
+        if self._redunda_task_manager is not None:
+            self._redunda_task_manager.stop_tasks()
+
         self._save_users()
         self.leave_rooms()
+
+        print(self.name + " stopped.")
         self.is_alive = False
     
-    def _shutdown_check(self):
-        if Utilities.should_shutdown:
-            self.stop_bot()
-
-    def _reboot_check(self):
-        if Utilities.should_reboot:
-            Utilities.should_reboot = False
-            self.stop_bot()
-            self.start_bot() 
-            self.add_essential_background_tasks()
+    def _stop_reason_check(self):
+        stop_reason = Utilities.StopReason
+        if stop_reason.reboot:
+            #Reboot the bot by running it again. https://stackoverflow.com/a/30247200/4688119
+            self.stop()
+            os.execl(sys.executable, sys.executable, *sys.argv)  
+        elif stop_reason.shutdown:
+            self.stop() 
 
     def _handle_event(self, event, _):
         if isinstance(event, ce.events.MessagePosted):
@@ -89,7 +243,7 @@ class Bot(ce.client.Client):
             short_name = '@' + self.name[:3]
 
             try:
-                print("(%s) %s (id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
+                print("(%s) %s (user id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
             except UnicodeEncodeError as unicode_err:
                 print("Unicode encode error occurred: " + str(unicode_err))
 
@@ -102,6 +256,7 @@ class Bot(ce.client.Client):
             if content_split[0].startswith(short_name.lower()):
                 self._command_manager.handle_command(message)
         elif isinstance(event, ce.events.UserEntered):
+            print("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
             event.room.add_user(event.user)
 
     def _save_users(self):
@@ -129,7 +284,6 @@ class Bot(ce.client.Client):
                     file_users = jp.decode(json.load(file_handle))
                     for user in file_users:
                         room._users = [x for x in room._users if x.id != user['id']]
-                        #room._users.append(self._set_dict(ChatUser.ChatUser, user['id'], user))
                         room._users.append(self.get_user(user['id'], _privilege_type=user['_privilege_type']))
             except IOError as ioerr:
                 print("IOError occurred: ")
@@ -139,7 +293,7 @@ class Bot(ce.client.Client):
                 print(str(perr)) 
 
     def _convert_to_save_filename(self, id):
-        return self._storage_prefix + _self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
+        return self._storage_prefix + self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
 
     def get_room(self, room_id, **attrs_to_set):
         return self._get_and_set_deduplicated_list(
@@ -161,12 +315,4 @@ class Bot(ce.client.Client):
 
         for key, value in attrs.items():
             setattr(instance, key, value)
-        return instance
-
-    def _set_dict(self, cls, id, attrs):
-        instance = cls(id, self)
-    
-        for key, value in attrs.items():
-            setattr(instance, key, value)
-
         return instance

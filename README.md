@@ -13,6 +13,8 @@ or
 
 # Changelog
 
+ - **v0.6.0**: Add Redunda support.
+ - **v0.5.1**: Allow change of storage prefix.
  - **v0.5.0**: Huge overhaul; a lot has changed. Most classes now inherited from ChatExchange.
  - **v0.4.3**: Misc Changes
  - **v0.3.10**: A bug fix in the reboot check background task.

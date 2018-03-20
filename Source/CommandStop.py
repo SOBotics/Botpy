@@ -16,4 +16,4 @@ class CommandStop(Command):
 
     def run(self):
         self.reply("Shutting down...")
-        Utilities.should_shutdown = True
+        Utilities.StopReason.shutdown = True

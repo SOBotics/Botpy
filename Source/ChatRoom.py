@@ -49,6 +49,20 @@ class ChatRoom(ce.rooms.Room):
                 return each_user.is_privileged(required_level)
         return False
 
+    def get_max_privileges(self):
+        """
+        Returns the privilege type with maximum privileges.
+        Return value is None if no privilege types exist.
+        """
+        max_privs = None
+        for priv in self._privilege_types:
+            if max_privs is None:
+                max_privs = priv
+            elif priv.level > max_privs:
+                max_privs = priv
+        
+        return max_privs 
+
     def get_privilege_type_by_level(self, privilege_level):
         for each_type in self._privilege_types:
             if each_type.level == privilege_level:

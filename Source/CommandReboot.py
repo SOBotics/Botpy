@@ -16,4 +16,4 @@ class CommandReboot(Command):
 
     def run(self):
         self.reply("Rebooting...")
-        Utilities.should_reboot = True
+        Utilities.StopReason.reboot = True

@@ -3,6 +3,7 @@ from . import PrivilegeType
 
 sys.modules['PrivilegeType'] = PrivilegeType
 
+from .Redunda import RedundaManager
 from .Bot import Bot
 from .BackgroundTask import BackgroundTask
 from .BackgroundTaskManager import BackgroundTaskManager

@@ -6,14 +6,6 @@
 #
 #
 
-import weakref
-
-should_shutdown = False
-should_reboot = False
-
-def convert_weak_value_dict_to_list(to_convert):
-    new_list = list()
-    for first, second in to_convert.items():
-        new_list.append([first, second])
-
-    return new_list
+class StopReason:
+    shutdown = False
+    reboot = False

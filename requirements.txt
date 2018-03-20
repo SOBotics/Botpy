@@ -1,2 +1,4 @@
 chatexchange
 tabulate
+jsonpickle
+pyRedunda
