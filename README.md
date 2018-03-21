@@ -14,6 +14,7 @@ or
 
 # Changelog
 
+ - **v0.6.2**: Small changes to location support.
  - **v0.6.1**: Add location support.
  - **v0.6.0**: Add Redunda support.
  - **v0.5.1**: Allow change of storage prefix.

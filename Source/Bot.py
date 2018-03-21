@@ -37,7 +37,7 @@ class Bot(ce.client.Client):
         self._rooms = list()
         self._storage_prefix = os.path.expanduser("~") + "/." + self.name.lower() + "/"
         self._version = None
-        self._location = None
+        self._location = "unknown location"
         self._startup_message = self.name + " starting..."
         self._standby_message = "Switching to standby mode." 
         self._failover_message = "Failover received."
