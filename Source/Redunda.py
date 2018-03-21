@@ -7,18 +7,24 @@
 #
 
 import pyRedunda
+import urllib
 
 class RedundaManager:
     def __init__(self, redunda_obj):
         if not isinstance(redunda_obj, pyRedunda.Redunda):
             raise TypeError('RedundaManager.__init__: "redunda_obj" should be an instance of pyRedunda.Redunda')
         self._redunda = redunda_obj
-        self._redunda.downloadFiles()
         self._standby_callback = lambda: None
         self._standby_exit_callback = lambda: None
         self._new_event_callback = None
         self._location = None
         self._standby_status = False
+
+        try:
+            self._redunda.downloadFiles()
+        except urllib.error.HTTPError as httperror:
+            print(str(httperror))
+            print('The file probably does not exist in Redunda storage.') 
 
         print("RedundaManager initialised.")
 

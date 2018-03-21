@@ -4,15 +4,17 @@ A python framework for creating bots on the StackExchange network.
 
 # Installation
 
-Botpy does not support any versions of Python before Python3. To install Botpy, run:
+Botpy does not support any versions of Python before Python3. It has been thoroughly tested on Python 3.6 (and *should* work for 3.x).To install Botpy, run:
 
-    pip3 install BotpySE --user
+    pip3.6 install BotpySE --user
 
 or
-    sudo -H pip3 install BotpySE
+
+    sudo -H pip3.6 install BotpySE
 
 # Changelog
 
+ - **v0.6.1**: Add location support.
  - **v0.6.0**: Add Redunda support.
  - **v0.5.1**: Allow change of storage prefix.
  - **v0.5.0**: Huge overhaul; a lot has changed. Most classes now inherited from ChatExchange.

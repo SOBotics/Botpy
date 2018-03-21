@@ -37,7 +37,10 @@ class Bot(ce.client.Client):
         self._rooms = list()
         self._storage_prefix = os.path.expanduser("~") + "/." + self.name.lower() + "/"
         self._version = None
-        self._location = None 
+        self._location = None
+        self._startup_message = self.name + " starting..."
+        self._standby_message = "Switching to standby mode." 
+        self._failover_message = "Failover received."
         
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
@@ -48,6 +51,43 @@ class Bot(ce.client.Client):
         self._sync_files = list()
         self._using_redunda = False
         self._redunda_task_manager = None
+
+        try:
+            with open(self._storage_prefix + 'location.txt', 'r') as file_handle:
+                content = [x.rstrip('\n') for x in file_handle.readlines()]
+            if len(content) != 2:
+                raise ValueError('Invalid format in "location.txt"') 
+            self._location = content[0] + "/" + content[1]
+            print(self._location)
+        except IOError as ioerr:
+            print(str(ioerr))
+            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+        except ValueError as value_error:
+            print(str(value_error)) 
+
+    def set_startup_message(self, message):
+        """
+        Sets a startup message to be posted when the bot starts.
+        """
+        if not isinstance(message, str):
+            raise TypeError('Bot.set_startup_message: "message" should be of type str!')
+        self._startup_message = message 
+
+    def set_standby_message(self, message):
+        """
+        Sets a message posted across all rooms when the bot switches to standby.
+        """
+        if not isinstance(message, str):
+            raise TypeError('Bot.set_standby_message: "message" should be of type str!')
+        self._standby_message = message
+
+    def set_failover_message(self, message):
+        """
+        Sets a message posted across all rooms when the bot exits standby (failover).
+        """
+        if not isinstance(message, str):
+            raise TypeError('Bot.set_failover_message: "message" should be of type str!')
+        self._failover_message = message
 
     def set_room_owner_privs_max(self, ids=[]):
         """
@@ -77,6 +117,18 @@ class Bot(ce.client.Client):
         Sets a new path for the bot's data files to be stored.
         """
         self._storage_prefix = new_prefix
+
+        try:
+            with open(self._storage_prefix + 'location.txt', 'r') as file_handle:
+                content = [x.rstrip('\n') for x in file_handle.readlines()]
+            if len(content) != 2:
+                raise ValueError('Invalid format in "location.txt"') 
+            self._location = content[0] + "/" + content[1]
+        except IOError as ioerr:
+            print(str(ioerr))
+            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+        except ValueError as value_error:
+            print(str(value_error))
 
     def set_bot_version(self, bot_version):
         """
@@ -148,6 +200,8 @@ class Bot(ce.client.Client):
 
         if self._using_redunda:
             self._redunda_task_manager.start_tasks()
+            self._redunda.update()
+            self.set_bot_location(self._redunda.location())
         elif not self._using_redunda:
             self._redunda_task_manager.stop_tasks()
 
@@ -176,6 +230,14 @@ class Bot(ce.client.Client):
         for each_room in self._rooms:
             each_room.watch(self._handle_event)
 
+    def post_global_message(self, message):
+        """
+        Posts the argument message across all rooms the bot is in.
+        """
+        for id in self._ids:
+            room = self.get_room(id)
+            room.send_message(message)
+
     def add_privilege_type(self, privilege_level, privilege_name):
         for each_room in self._rooms:
             each_room.add_privilege_type(privilege_level, privilege_name)
@@ -190,13 +252,14 @@ class Bot(ce.client.Client):
         self.watch_rooms()
         self._background_task_manager.start_tasks()
 
+        self.post_global_message(self._startup_message)
+
         print(self.name + " started.")
 
     def standby(self):
         """
         Puts the bot to standby. The bot does not respond to chat messages and shuts down all background tasks.
         """
-        print("AAAAA")
         if not self.at_standby:
             self._background_task_manager.stop_tasks()
             self.at_standby = True
@@ -225,7 +288,7 @@ class Bot(ce.client.Client):
         self._save_users()
         self.leave_rooms()
 
-        print(self.name + " stopped.")
+        print(self.name + " stopping...")
         self.is_alive = False
     
     def _stop_reason_check(self):
