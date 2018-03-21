@@ -152,6 +152,14 @@ class Bot(ce.client.Client):
             raise TypeError('Bot.set_redundakey: "key" is not of type str!')
         self._redunda_key = key
 
+    def add_file_to_sync(self, new_file_dict):
+        """
+        Adds a new file to sync; must be in sync file format supported by pyRedunda.
+        """
+        if not isinstance(new_file_dict, dict):
+            raise TypeError('Bot.add_file_to_sync: "new_file_dict" must be of type dict')
+        self._sync_files.append(new_file_dict)
+
     def redunda_init(self, file_sync=True, bot_version=None):
         """
         Initializes the self._redunda object for further use.
@@ -175,7 +183,7 @@ class Bot(ce.client.Client):
         
         if file_sync:
             if not isinstance(self._sync_files, list):
-                raise TypeError('Bot.redunda_init: "self._sync_files" is not a dictionary!') 
+                raise TypeError('Bot.redunda_init: "self._sync_files" is not a list!') 
             for id in self._ids:
                 self._sync_files.append({"name": self._convert_to_save_filename(id), "ispickle": False, "at_home": False})
         self._redunda = Redunda.RedundaManager(redunda.Redunda(self._redunda_key, self._sync_files, bot_version))
@@ -206,12 +214,18 @@ class Bot(ce.client.Client):
             self._redunda_task_manager.stop_tasks()
 
     def set_redunda_standby_callback(self, callback):
+        if self._redunda is None and self._redunda_task_manager is None:
+            return
         self._redunda.set_standby_callback(callback)
 
     def set_redunda_standby_exit_callback(self, callback):
+        if self._redunda is None and self._redunda_task_manager is None:
+            return
         self._redunda.set_standby_exit_callback(callback)
 
     def set_new_event_callback(self, callback):
+        if self._redunda is None and self._redunda_task_manager is None:
+            return 
         self._redunda.set_new_event_callback(callback)
      
     def join_rooms(self):
@@ -273,6 +287,8 @@ class Bot(ce.client.Client):
             self.at_standby = False
 
     def set_redunda_default_callbacks(self):
+        if self._redunda is None and self._redunda_task_manager is None:
+            return
         self.set_redunda_standby_callback(self.standby)
         self.set_redunda_standby_exit_callback(self.failover)
 
