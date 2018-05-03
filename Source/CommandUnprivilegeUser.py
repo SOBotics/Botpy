@@ -13,9 +13,6 @@ class CommandUnprivilegeUser(Command):
     def usage():
         return ["unprivilege *", "unprivilege user *", "remove privileges *"]
 
-    def privileges(self):
-        return 1
-
     def run(self):
         user_id = int(self.arguments[0])
 

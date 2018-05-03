@@ -14,6 +14,7 @@ or
 
 # Changelog
 
+ - **v0.6.4**: Let Botpy users override commands and choose privileges.
  - **v0.6.3**: Allow addition of files to be synced with Redunda.
  - **v0.6.2**: Small changes to location support.
  - **v0.6.1**: Add location support.
