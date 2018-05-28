@@ -9,6 +9,7 @@
 import os
 import pickle
 import weakref
+import logging
 
 import chatexchange as ce
 
@@ -31,8 +32,8 @@ class ChatRoom(ce.rooms.Room):
         self._users.extend(self.get_pingable_users())
 
     def join(self):
-        print("Joined room '" + self.name + "' with room id " + str(self.id) + ".")
-        return self._client._join_room(self.id) 
+        logging.info("Joined room '" + self.name + "' with room id " + str(self.id) + ".")
+        return self._client._join_room(self.id)
 
     def leave(self):
         return self._client._leave_room(self.id)

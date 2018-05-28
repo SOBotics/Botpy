@@ -7,6 +7,7 @@
 #
 
 import urllib
+import logging
 
 import pyRedunda
 
@@ -25,10 +26,10 @@ class RedundaManager:
         try:
             self._redunda.downloadFiles()
         except urllib.error.HTTPError as httperror:
-            print(str(httperror))
-            print('The file probably does not exist in Redunda storage.') 
+            logging.error(str(httperror))
+            logging.info('The file probably does not exist in Redunda storage.')
 
-        print("RedundaManager initialised.")
+        logging.info("RedundaManager initialised.")
 
     def update(self):
         """

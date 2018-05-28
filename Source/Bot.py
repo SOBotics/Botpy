@@ -9,6 +9,7 @@
 import os
 import sys
 import json
+import logging
 
 import jsonpickle as jp
 import pyRedunda as redunda
@@ -60,12 +61,12 @@ class Bot(ce.client.Client):
             if len(content) != 2:
                 raise ValueError('Invalid format in "location.txt"')
             self._location = content[0] + "/" + content[1]
-            print(self._location)
+            logging.info(self._location)
         except IOError as ioerr:
-            print(str(ioerr))
-            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+            logging.error(str(ioerr))
+            logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
-            print(str(value_error)) 
+            logging.error(str(value_error))
 
     def set_startup_message(self, message):
         """
@@ -127,10 +128,10 @@ class Bot(ce.client.Client):
                 raise ValueError('Invalid format in "location.txt"')
             self._location = content[0] + "/" + content[1]
         except IOError as ioerr:
-            print(str(ioerr))
-            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+            logging.error(str(ioerr))
+            logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
-            print(str(value_error))
+            logging.error(str(value_error))
 
     def set_bot_version(self, bot_version):
         """
@@ -270,7 +271,7 @@ class Bot(ce.client.Client):
 
         self.post_global_message(self._startup_message)
 
-        print(self.name + " started.")
+        logging.info(self.name + " started.")
 
     def standby(self):
         """
@@ -324,20 +325,20 @@ class Bot(ce.client.Client):
             short_name = '@' + self.name[:3]
 
             try:
-                print("(%s) %s (user id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
+                logging.info("(%s) %s (user id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
             except UnicodeEncodeError as unicode_err:
-                print("Unicode encode error occurred: " + str(unicode_err))
+                logging.error("Unicode encode error occurred: " + str(unicode_err))
 
             try:
                 content_split = message.content.lower().split()
             except AttributeError:
-                print("Attribute error occurred.")
+                logging.error("Attribute error occurred.")
                 return
 
             if content_split[0].startswith(short_name.lower()):
                 self._command_manager.handle_command(message)
         elif isinstance(event, ce.events.UserEntered):
-            print("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
+            logging.info("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
             event.room.add_user(event.user)
 
     def _save_users(self):
@@ -351,11 +352,11 @@ class Bot(ce.client.Client):
                 with open(filename, "w") as file_handle:
                     json.dump(jp.encode(save_list), file_handle)
             except IOError as ioerr:
-                print("IOError occurred: ")
-                print(str(ioerr))
+                logging.error("IOError occurred: ")
+                logging.error(str(ioerr))
             except pickle.PickleError as perr:
-                print("Pickling error occurred: ")
-                print(str(perr))
+                logging.error("Pickling error occurred: ")
+                logging.error(str(perr))
 
     def _load_users(self):
         for room in self._rooms:
@@ -367,11 +368,11 @@ class Bot(ce.client.Client):
                         room._users = [x for x in room._users if x.id != user['id']]
                         room._users.append(self.get_user(user['id'], _privilege_type=user['_privilege_type']))
             except IOError as ioerr:
-                print("IOError occurred: ")
-                print(str(ioerr))
+                logging.error("IOError occurred: ")
+                logging.error(str(ioerr))
             except pickle.PickleError as perr:
-                print("Pickling error occurred: ")
-                print(str(perr)) 
+                logging.error("Pickling error occurred: ")
+                logging.error(str(perr))
 
     def _convert_to_save_filename(self, id):
         return self._storage_prefix + self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
