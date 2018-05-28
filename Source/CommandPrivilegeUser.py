@@ -8,6 +8,7 @@
 
 from .Command import *
 
+
 class CommandPrivilegeUser(Command):
     def usage():
         return ["privilege * *", "addpriv * *"]

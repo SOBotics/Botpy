@@ -6,14 +6,16 @@
 #
 #
 
-import chatexchange as ce
 import os
 import pickle
 import weakref
 
+import chatexchange as ce
+
 from . import ChatUser
 from . import PrivilegeType
 from . import Utilities
+
 
 class ChatRoom(ce.rooms.Room):
     def __init__(self, room_id, client, save_directory=None):

@@ -8,6 +8,7 @@
 
 from .Command import *
 
+
 class CommandAlive(Command):
     @staticmethod
     def usage():

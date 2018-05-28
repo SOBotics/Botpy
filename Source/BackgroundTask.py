@@ -8,6 +8,7 @@
 
 import threading
 
+
 class BackgroundTask:
     def __init__(self, function_callback, interval=30):
         self.function_callback = function_callback

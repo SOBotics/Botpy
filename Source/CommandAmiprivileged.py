@@ -8,6 +8,7 @@
 
 from .Command import *
 
+
 class CommandAmiprivileged(Command):
     def usage():
         return ["amiprivileged", "doihaveprivs", "privileges"]

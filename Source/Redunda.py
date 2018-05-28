@@ -6,8 +6,10 @@
 #
 #
 
-import pyRedunda
 import urllib
+
+import pyRedunda
+
 
 class RedundaManager:
     def __init__(self, redunda_obj):

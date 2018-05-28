@@ -7,7 +7,9 @@
 #
 
 import chatexchange as ce
+
 from . import PrivilegeType
+
 
 class ChatUser(ce.users.User):
     def __init__(self, id, client, privilege_type=None):

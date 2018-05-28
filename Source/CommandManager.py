@@ -6,8 +6,10 @@
 #
 #
 
-import chatexchange as ce
 import threading
+
+import chatexchange as ce
+
 
 class CommandManager:
     def __init__(self, commands):

@@ -7,6 +7,7 @@
 
 import chatexchange as ce
 
+
 class Command:
     def __init__(self, command_manager, message, arguments, usage_index=0):
         self.command_manager = command_manager

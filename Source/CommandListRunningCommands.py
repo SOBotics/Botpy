@@ -6,9 +6,12 @@
 #
 #
 
-from .Command import *
-import tabulate
 import re
+
+import tabulate
+
+from .Command import *
+
 
 class CommandListRunningCommands(Command):
     @staticmethod

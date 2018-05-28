@@ -6,8 +6,10 @@
 #
 #
 
-from .Command import *
 import tabulate
+
+from .Command import *
+
 
 class CommandListPrivilegedUsers(Command):
     def usage():

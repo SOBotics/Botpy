@@ -6,6 +6,13 @@
 #
 #
 
+import os
+import sys
+import json
+
+import jsonpickle as jp
+import pyRedunda as redunda
+
 from .CommandManager import *
 from .BackgroundTaskManager import *
 from .BackgroundTask import *
@@ -14,11 +21,6 @@ from . import ChatUser
 from . import Utilities
 from . import Redunda
 
-import os
-import sys
-import json
-import jsonpickle as jp
-import pyRedunda as redunda
 
 class Bot(ce.client.Client):
     def __init__(self, bot_name, commands, room_ids, background_tasks=[], host='stackexchange.com', email=None, password=None):
