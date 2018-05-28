@@ -23,4 +23,4 @@ class BackgroundTaskManager:
 
     def restart_tasks(self):
         self.stop_tasks()
-        self.start_tasks() 
+        self.start_tasks()

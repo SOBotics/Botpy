@@ -26,4 +26,4 @@ class CommandListRunningCommands(Command):
 
         table = tabulate.tabulate(command_list, headers=["User", "Command"], tablefmt="orgtbl")
 
-        self.post("    " + re.sub('\n', '\n    ', table)) 
+        self.post("    " + re.sub('\n', '\n    ', table))

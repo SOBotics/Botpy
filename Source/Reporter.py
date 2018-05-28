@@ -28,7 +28,7 @@ class Reporter:
             report = Report(self.get_start_link() + ' ' + message, each_room)
             report.report()
             self.reports.append(report)
-            self.pending_reports.append(report) 
+            self.pending_reports.append(report)
 
     def check_message_for_report(self, message):
         print(message)

@@ -23,7 +23,7 @@ class ChatRoom(ce.rooms.Room):
 
         if save_directory is None:
             save_directory = os.getcwd()
-        
+
         self._filename = save_directory + "room_" + str(self.id) + "_name_" + self.name.replace(" ", "_") + "_users"
         self._privilege_types = list()
         self._users = list()
@@ -43,7 +43,7 @@ class ChatRoom(ce.rooms.Room):
     def remove_privilege_type(self, privilege_name):
         for each_type in self._privilege_types:
             if each_type.name == privilege_name:
-                self._privilege_types.remove(each_type) 
+                self._privilege_types.remove(each_type)
 
     def is_user_privileged(self, user_id, required_level):
         for each_user in self._users:
@@ -62,8 +62,8 @@ class ChatRoom(ce.rooms.Room):
                 max_privs = priv
             elif priv.level > max_privs:
                 max_privs = priv
-        
-        return max_privs 
+
+        return max_privs
 
     def get_privilege_type_by_level(self, privilege_level):
         for each_type in self._privilege_types:
@@ -97,7 +97,7 @@ class ChatRoom(ce.rooms.Room):
         if not isinstance(user, ChatUser.ChatUser):
             raise TypeError('add_user: Expected user of type "ChatUser.ChatUser"')
             return
-        
+
         for each_user in self._users:
              if each_user.id == user.id:
                 return

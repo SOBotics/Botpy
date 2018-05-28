@@ -23,7 +23,7 @@ class CommandManager:
             command_thread.start()
             return
 
-        if command.message.room.is_user_privileged(command.message.user.id, command.privileges()):         
+        if command.message.room.is_user_privileged(command.message.user.id, command.privileges()):
             command_thread = threading.Thread(target=command.run)
             self.running_commands.append([command, command_thread])
             command_thread.start()
@@ -53,7 +53,7 @@ class CommandManager:
                 for i in range(last_index):
                     content_component = message_content[i]
                     usage_component = usage_components[i]
-                
+
                     if usage_component == '*':
                         args.append(content_component)
                     elif usage_component == '...':
@@ -75,4 +75,4 @@ class CommandManager:
     def cleanup_finished_commands(self):
         for command, command_thread in self.running_commands:
             if not command_thread.isAlive():
-                self.running_commands.remove([command, command_thread]) 
+                self.running_commands.remove([command, command_thread])

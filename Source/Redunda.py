@@ -37,7 +37,7 @@ class RedundaManager:
         """
         self._redunda.sendStatusPing()
         self._location = self.location()
-        
+
         if (self.standby_status()) and (not self._standby_status):
             self._standby_status = True
             self._standby_callback()
@@ -100,4 +100,4 @@ class RedundaManager:
         """
         return self._redunda.getEvents()
 
-                
+
