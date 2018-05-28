@@ -6,6 +6,9 @@
 #
 #
 
+import logging
+
+
 class Reporter:
     def __init__(self, bot_name, error_rooms, report_rooms, bot_link):
         self.bot_name = bot_name
@@ -28,18 +31,18 @@ class Reporter:
             report = Report(self.get_start_link() + ' ' + message, each_room)
             report.report()
             self.reports.append(report)
-            self.pending_reports.append(report) 
+            self.pending_reports.append(report)
 
     def check_message_for_report(self, message):
-        print(message)
-        print('yo')
+        logging.info(message)
+        logging.debug('yo')
         if message.startswith(' &#91; <a href="'):
-            print('bingo')
+            logging.debug('bingo')
 
             for each_report in self.pending_reports:
-                print('in')
+                logging.debug('in')
                 if message.room.id == each_report.room.id:
-                    print('woohoo')
+                    logging.debug('woohoo')
                     each_report.message_id = message.id
                     self.pending_reports.remove(each_report)
                     break

@@ -6,8 +6,11 @@
 #
 #
 
-import pyRedunda
 import urllib
+import logging
+
+import pyRedunda
+
 
 class RedundaManager:
     def __init__(self, redunda_obj):
@@ -23,10 +26,10 @@ class RedundaManager:
         try:
             self._redunda.downloadFiles()
         except urllib.error.HTTPError as httperror:
-            print(str(httperror))
-            print('The file probably does not exist in Redunda storage.') 
+            logging.error(str(httperror))
+            logging.info('The file probably does not exist in Redunda storage.')
 
-        print("RedundaManager initialised.")
+        logging.info("RedundaManager initialised.")
 
     def update(self):
         """
@@ -35,7 +38,7 @@ class RedundaManager:
         """
         self._redunda.sendStatusPing()
         self._location = self.location()
-        
+
         if (self.standby_status()) and (not self._standby_status):
             self._standby_status = True
             self._standby_callback()
@@ -98,4 +101,4 @@ class RedundaManager:
         """
         return self._redunda.getEvents()
 
-                
+

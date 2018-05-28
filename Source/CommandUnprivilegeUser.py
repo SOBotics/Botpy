@@ -8,6 +8,7 @@
 
 from .Command import *
 
+
 class CommandUnprivilegeUser(Command):
     @staticmethod
     def usage():

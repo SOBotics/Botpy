@@ -6,6 +6,14 @@
 #
 #
 
+import os
+import sys
+import json
+import logging
+
+import jsonpickle as jp
+import pyRedunda as redunda
+
 from .CommandManager import *
 from .BackgroundTaskManager import *
 from .BackgroundTask import *
@@ -14,11 +22,6 @@ from . import ChatUser
 from . import Utilities
 from . import Redunda
 
-import os
-import sys
-import json
-import jsonpickle as jp
-import pyRedunda as redunda
 
 class Bot(ce.client.Client):
     def __init__(self, bot_name, commands, room_ids, background_tasks=[], host='stackexchange.com', email=None, password=None):
@@ -39,9 +42,9 @@ class Bot(ce.client.Client):
         self._version = None
         self._location = "unknown location"
         self._startup_message = self.name + " starting..."
-        self._standby_message = "Switching to standby mode." 
+        self._standby_message = "Switching to standby mode."
         self._failover_message = "Failover received."
-        
+
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
 
@@ -56,14 +59,14 @@ class Bot(ce.client.Client):
             with open(self._storage_prefix + 'location.txt', 'r') as file_handle:
                 content = [x.rstrip('\n') for x in file_handle.readlines()]
             if len(content) != 2:
-                raise ValueError('Invalid format in "location.txt"') 
+                raise ValueError('Invalid format in "location.txt"')
             self._location = content[0] + "/" + content[1]
-            print(self._location)
+            logging.info(self._location)
         except IOError as ioerr:
-            print(str(ioerr))
-            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+            logging.error(str(ioerr))
+            logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
-            print(str(value_error)) 
+            logging.error(str(value_error))
 
     def set_startup_message(self, message):
         """
@@ -71,7 +74,7 @@ class Bot(ce.client.Client):
         """
         if not isinstance(message, str):
             raise TypeError('Bot.set_startup_message: "message" should be of type str!')
-        self._startup_message = message 
+        self._startup_message = message
 
     def set_standby_message(self, message):
         """
@@ -108,9 +111,9 @@ class Bot(ce.client.Client):
         for id in room_ids:
             room = self.get_room(id)
             max_privs = room.get_max_privileges()
-            for user in room.owners: 
+            for user in room.owners:
                 if max_privs is not None:
-                    user.change_privilege_level(max_privs) 
+                    user.change_privilege_level(max_privs)
 
     def set_storage_prefix(self, new_prefix):
         """
@@ -122,13 +125,13 @@ class Bot(ce.client.Client):
             with open(self._storage_prefix + 'location.txt', 'r') as file_handle:
                 content = [x.rstrip('\n') for x in file_handle.readlines()]
             if len(content) != 2:
-                raise ValueError('Invalid format in "location.txt"') 
+                raise ValueError('Invalid format in "location.txt"')
             self._location = content[0] + "/" + content[1]
         except IOError as ioerr:
-            print(str(ioerr))
-            print('"location.txt" probably does not exist at: ' + self._storage_prefix)
+            logging.error(str(ioerr))
+            logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
-            print(str(value_error))
+            logging.error(str(value_error))
 
     def set_bot_version(self, bot_version):
         """
@@ -180,10 +183,10 @@ class Bot(ce.client.Client):
 
         if (self._redunda_key is None) or (bot_version is None):
             return False
-        
+
         if file_sync:
             if not isinstance(self._sync_files, list):
-                raise TypeError('Bot.redunda_init: "self._sync_files" is not a list!') 
+                raise TypeError('Bot.redunda_init: "self._sync_files" is not a list!')
             for id in self._ids:
                 self._sync_files.append({"name": self._convert_to_save_filename(id), "ispickle": False, "at_home": False})
         self._redunda = Redunda.RedundaManager(redunda.Redunda(self._redunda_key, self._sync_files, bot_version))
@@ -225,16 +228,16 @@ class Bot(ce.client.Client):
 
     def set_new_event_callback(self, callback):
         if self._redunda is None and self._redunda_task_manager is None:
-            return 
+            return
         self._redunda.set_new_event_callback(callback)
-     
+
     def join_rooms(self):
         for each_id in self._ids:
             #self._rooms.setdefault(each_id, self.get_room(each_id))
             self.get_room(each_id)
 
         for each_room in self._rooms:
-            each_room.join()        
+            each_room.join()
 
     def leave_rooms(self):
         for each_room in self._rooms:
@@ -255,7 +258,7 @@ class Bot(ce.client.Client):
     def add_privilege_type(self, privilege_level, privilege_name):
         for each_room in self._rooms:
             each_room.add_privilege_type(privilege_level, privilege_name)
-    
+
     def start(self):
         """
         Starts the bot.
@@ -268,7 +271,7 @@ class Bot(ce.client.Client):
 
         self.post_global_message(self._startup_message)
 
-        print(self.name + " started.")
+        logging.info(self.name + " started.")
 
     def standby(self):
         """
@@ -304,17 +307,17 @@ class Bot(ce.client.Client):
         self._save_users()
         self.leave_rooms()
 
-        print(self.name + " stopping...")
+        logging.info(self.name + " stopping...")
         self.is_alive = False
-    
+
     def _stop_reason_check(self):
         stop_reason = Utilities.StopReason
         if stop_reason.reboot:
             #Reboot the bot by running it again. https://stackoverflow.com/a/30247200/4688119
             self.stop()
-            os.execl(sys.executable, sys.executable, *sys.argv)  
+            os.execl(sys.executable, sys.executable, *sys.argv)
         elif stop_reason.shutdown:
-            self.stop() 
+            self.stop()
 
     def _handle_event(self, event, _):
         if isinstance(event, ce.events.MessagePosted):
@@ -322,20 +325,20 @@ class Bot(ce.client.Client):
             short_name = '@' + self.name[:3]
 
             try:
-                print("(%s) %s (user id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
+                logging.info("(%s) %s (user id: %d): %s" % (message.room.name, message.user.name, message.user.id, message.content))
             except UnicodeEncodeError as unicode_err:
-                print("Unicode encode error occurred: " + str(unicode_err))
+                logging.error("Unicode encode error occurred: " + str(unicode_err))
 
             try:
                 content_split = message.content.lower().split()
             except AttributeError:
-                print("Attribute error occurred.")
+                logging.error("Attribute error occurred.")
                 return
 
             if content_split[0].startswith(short_name.lower()):
                 self._command_manager.handle_command(message)
         elif isinstance(event, ce.events.UserEntered):
-            print("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
+            logging.info("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
             event.room.add_user(event.user)
 
     def _save_users(self):
@@ -345,15 +348,15 @@ class Bot(ce.client.Client):
                 save_list = list()
                 for user in room._users:
                     save_list.append({'id': user.id, '_privilege_type': user._privilege_type})
-    
+
                 with open(filename, "w") as file_handle:
                     json.dump(jp.encode(save_list), file_handle)
             except IOError as ioerr:
-                print("IOError occurred: ")
-                print(str(ioerr))
+                logging.error("IOError occurred: ")
+                logging.error(str(ioerr))
             except pickle.PickleError as perr:
-                print("Pickling error occurred: ")
-                print(str(perr))
+                logging.error("Pickling error occurred: ")
+                logging.error(str(perr))
 
     def _load_users(self):
         for room in self._rooms:
@@ -365,11 +368,11 @@ class Bot(ce.client.Client):
                         room._users = [x for x in room._users if x.id != user['id']]
                         room._users.append(self.get_user(user['id'], _privilege_type=user['_privilege_type']))
             except IOError as ioerr:
-                print("IOError occurred: ")
-                print(str(ioerr))
+                logging.error("IOError occurred: ")
+                logging.error(str(ioerr))
             except pickle.PickleError as perr:
-                print("Pickling error occurred: ")
-                print(str(perr)) 
+                logging.error("Pickling error occurred: ")
+                logging.error(str(perr))
 
     def _convert_to_save_filename(self, id):
         return self._storage_prefix + self.name.replace(' ', '_') + '_room_' + str(id) + '_data'

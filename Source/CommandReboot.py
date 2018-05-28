@@ -9,6 +9,7 @@
 from .Command import *
 from . import Utilities
 
+
 class CommandReboot(Command):
     @staticmethod
     def usage():
