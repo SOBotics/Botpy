@@ -1,6 +1,13 @@
 # Botpy
 
-A python framework for creating bots on the StackExchange network. 
+A python framework for creating bots on the StackExchange network. Builds upon ChatExchange to create a nice framework to help you make bots without the nitty-gritty you would otherwise have.
+
+Features:
+
+ - ChatUser management, along with privilege levels. Set up privilege levels using a single line of code. Botpy also provides different privilege chat commands to get your privilege system up and running in seconds!
+ - Command management, which you can easily extend with your own commands. Provides a simple template to make commands. Also provides a huge number of default commands you can configure.
+ - Redunda support, to help you run multiple instances at the same time and also have backups of all your bot data.
+ - A fully functional background task manager using threads, which allows you to add your own tasks. Automatically stops and starts tasks based on the status of the instance. 
 
 # Installation
 
@@ -12,8 +19,21 @@ or
 
     sudo -H pip3.6 install BotpySE
 
+# Quick start
+
+You should be able to import BotpySE in your program.
+
+    import BotpySE as bp
+
+Once imported, to initialise a really simple bot with all the default commands, do the following:
+
+    bot = bp.Bot("<enter bot name here>", bp.all_commands, [1], [], "stackoverflow.com", "<enter email for SE>", "<enter password for SE>")
+
+The first argument is the bot name. Pings to the name (`@<enter bot name here>`) will run the appropriate commands. The seconds argument is 
+
 # Changelog
 
+ - **v0.6.6**: Implement a reboot method (#6).
  - **v0.6.5**: Use logging instead of prints.
  - **v0.6.4**: Let Botpy users override commands and choose privileges.
  - **v0.6.3**: Allow addition of files to be synced with Redunda.
