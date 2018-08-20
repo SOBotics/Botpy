@@ -310,12 +310,18 @@ class Bot(ce.client.Client):
         logging.info(self.name + " stopping...")
         self.is_alive = False
 
+    def reboot(self):
+        """
+        Reboots the bot. Automatically called when Utilities.StopReason.reboot = True.
+        """
+        #Reboot the bot by running it again. https://stackoverflow.com/a/30247200/4688119
+        self.stop()
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
     def _stop_reason_check(self):
         stop_reason = Utilities.StopReason
         if stop_reason.reboot:
-            #Reboot the bot by running it again. https://stackoverflow.com/a/30247200/4688119
-            self.stop()
-            os.execl(sys.executable, sys.executable, *sys.argv)
+            self.reboot()
         elif stop_reason.shutdown:
             self.stop()
 

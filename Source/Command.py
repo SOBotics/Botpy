@@ -16,7 +16,7 @@ class Command:
         self.usage_index = usage_index
 
     def usage():
-        raise NotImplementedError
+        raise NotImplementedError("Function 'usage' must be implemented in the command.")
 
     def privileges(self):
         return 0
@@ -31,4 +31,4 @@ class Command:
         self.message.room.send_message(text, length_check=length_check)
 
     def run(self):
-        raise NotImplementedError
+        raise NotImplementedError("Function 'run' must be implemented in the command.")
