@@ -17,24 +17,37 @@ Features
  - A fully functional background task manager using threads, which allows you to add your own tasks. Automatically stops and starts tasks based on the status of the instance.
 
 Installation
-------------
+============
 
 Botpy has been thoroughly tested on Python 3.6 (and *should* work on all versions above Python 3). To install the latest version from PyPi, simply run:
+
+.. code:: bash
 
     $ pip3.6 install -U BotpySE
 
 or
 
+.. code:: bash
+
     $ sudo -H pip3.6 install BotpySE
 
 .. note:: Compatibility issues with versions of python below 3.6 will not be fixed by the author.
 
-.. warning:: The PyPi package is named `BotpySE`, not `Botpy`.
+.. warning:: The PyPi package is named :code:`BotpySE`, not :code:`Botpy`.
 
+License
+=======
 
-Indices and tables
-==================
+Licensed under WTFPL (`official site`_, `license text`_). Use this project for whatever the fuck you want to do.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Table of Contents
+=================
+
+.. toctree::
+  :maxdepth: 2
+
+  overview
+  commands 
+
+.. _official site: http://www.wtfpl.net/
+.. _license text: https://github.com/SOBotics/Botpy/blob/master/LICENSE
