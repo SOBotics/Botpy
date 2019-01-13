@@ -8,7 +8,6 @@ from .Bot import Bot
 from .BackgroundTask import BackgroundTask
 from .BackgroundTaskManager import BackgroundTaskManager
 from .ChatRoom import ChatRoom
-from .Command import Command
 from .CommandManager import CommandManager
 from .PrivilegeType import PrivilegeType
 from .ChatUser import ChatUser

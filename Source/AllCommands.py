@@ -13,4 +13,5 @@ from .CommandUnprivilegeUser import CommandUnprivilegeUser
 from .CommandAmiprivileged import CommandAmiprivileged
 from .CommandListPrivilegedUsers import CommandListPrivilegedUsers
 from .CommandReboot import CommandReboot
+from .Command import Command
 

@@ -25,6 +25,7 @@ Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io
 
 # Changelog
 
+ - **v0.7.1**: Fixes bug introduced in 0.6.7.
  - **v0.7.0**: Allow multiple aliases for a bot; #7.
  - **v0.6.7**: Command directory structure organization; #8.
  - **v0.6.6**: Implement a reboot method (#6).
