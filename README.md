@@ -19,17 +19,9 @@ or
 
     sudo -H pip3.6 install BotpySE
 
-# Quick start
+# Documentation
 
-You should be able to import BotpySE in your program.
-
-    import BotpySE as bp
-
-Once imported, to initialise a really simple bot with all the default commands, do the following:
-
-    bot = bp.Bot("<enter bot name here>", bp.all_commands, [1], [], "stackoverflow.com", "<enter email for SE>", "<enter password for SE>")
-
-The first argument is the bot name. Pings to the name (`@<enter bot name here>`) will run the appropriate commands. The seconds argument is 
+Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io/en/latest/ 
 
 # Changelog
 
