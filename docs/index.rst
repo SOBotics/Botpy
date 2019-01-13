@@ -47,7 +47,8 @@ Table of Contents
   :maxdepth: 2
 
   overview
-  commands 
+  privilege_system
+  commands
 
 .. _official site: http://www.wtfpl.net/
 .. _license text: https://github.com/SOBotics/Botpy/blob/master/LICENSE

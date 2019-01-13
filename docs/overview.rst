@@ -1,15 +1,14 @@
-.. _quickstart:
-
 Overview
 ========
 
-First, the import.
+This section will provide a small introduction to headstart you understanding Botpy. At the end, we will construct a simple chatbot.
 
-.. code:: python
+The Bot Object
+--------------
 
-    import BotpySE as bp
+Botpy is heavily based around one object, that is the :code:`Bot` object.
 
-Next, you have to initialise a :code:`Bot` object which is defined as follows:
+First, you have to initialise a :code:`Bot` which is defined as follows:
 
 .. code:: python
 
@@ -24,7 +23,7 @@ Next, you have to initialise a :code:`Bot` object which is defined as follows:
 2. :code:`commands` is a list consisting of :code:`Command` objects.
 
   1. All commands which can be run by the bot will have to be listed in this argument. 
-  2. The command will have appropriate functions for command usage, privileges and code to be run on invocation. Look at the commands section for more information on writing commands.
+  2. The command will have appropriate functions for command usage, privileges and code to be run on invocation. Look at the commands section in the User Guide for more information on writing commands.
 
 .. warning:: Objects passed through this argument which do not adhere to the given command format will lead to the bot malfunctioning to an extent which cannot be predicted.
 
@@ -53,8 +52,31 @@ Next, you have to initialise a :code:`Bot` object which is defined as follows:
 
 .. note:: It is recommended to store your email and password in environment variables, or read them in during program execution. Please *avoid* hardcoding them in your program.
 
+Running the bot
+---------------
+
+Once the bot object has been constructed, a majority of the work has been done. As you will see in further sections, using the privilege system, using Redunda, etc. will require more changes after the bot object has been created. For now though, we can simply focus on starting and stopping the bot.
+
+.. code:: python
+    
+    bot.start()
+
+The above line will start the bot (where :code:`bot` is the :code:`Bot` object) and start running all background processes specified. Processes required to keep the bot alive such as listening to rooms, running commands, etc. will automatically run.
+
+.. code:: python
+
+    bot.stop()
+
+This will stop the bot. For your convenience, the bot is automatically stopped when the stop command is run. A `background task runs to continuously check`_ whether the bot has to be rebooted or stopped. Use this method to stop the bot if need be, and if you know what you're doing. 
+
+.. note:: If stopping the bot manually is a real necessity, it is recommended to set :code:`Utilities.StopReason.shutdown` (`code reference here`_) to :code:`True` instead of directly using the :code:`stop` function. Eventually, the :code:`stop` function will be triggered. 
+
+.. _background task runs to continuously check: https://github.com/SOBotics/Botpy/blob/6eab00049cfbaebe51c413f171ee130aae696865/Source/Bot.py#L321-L326
+.. _code reference here: https://github.com/SOBotics/Botpy/blob/6eab00049cfbaebe51c413f171ee130aae696865/Source/Utilities.py#L10 
+
+
 A simple chatbot
-================
+----------------
 
 This section consists of a simple example of a chatbot named "Testbot" using all of Botpy's default features. The bot constructed here will have all functional commands (start, stop, reboot, alive, etc.) and will monitor and store room and user data. In this specific example, I will be using the Sandbox room on StackOverflow chat.
 
@@ -100,3 +122,5 @@ Before you run this bot, there is one more requirement needed to be fulfilled. B
     $ mkdir ~/.testbot
 
 You're now all good to go! Try running the bot. Go to the sandbox room on SO chat and run some commands. This is all what is required to run a fully functional chatbot on the StackExchange network.
+
+.. note:: The bot account you are using needs to have at least 20 reputation on StackOverflow to chat. If you do not have a bot account, or simply do not have 20 rep in it, you can use your own account. It might be slightly weird with the bot responding to your own messages from the same account, but it'll work.
