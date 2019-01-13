@@ -31,6 +31,7 @@ class Bot(ce.client.Client):
         background_tasks.append(BackgroundTask(self._save_users, interval=60))
 
         self.name = bot_name
+        self.aliases = []
         self.is_alive = False
         self.at_standby = False
         self._ids = room_ids
@@ -67,6 +68,14 @@ class Bot(ce.client.Client):
             logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
             logging.error(str(value_error))
+
+    def add_alias(self, alias):
+        """
+        Adds a new name alias for the bot.
+        """
+        if not isinstance(alias, str):
+            raise TypeError('Bot.add_alias: "alias" can only be of type str!')
+        self.aliases.append(alias)
 
     def set_startup_message(self, message):
         """
@@ -343,6 +352,11 @@ class Bot(ce.client.Client):
 
             if content_split[0].startswith(short_name.lower()):
                 self._command_manager.handle_command(message)
+            else:
+                for each in self.aliases:
+                    each  = '@' + each[:3]
+                    if content_split[0].startswith(each.lower()):
+                        self._command_manager.handle_command(message)
         elif isinstance(event, ce.events.UserEntered):
             logging.info("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
             event.room.add_user(event.user)
