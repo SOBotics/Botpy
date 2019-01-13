@@ -33,6 +33,8 @@ The first argument is the bot name. Pings to the name (`@<enter bot name here>`)
 
 # Changelog
 
+ - **v0.7.0**: Allow multiple aliases for a bot; #7.
+ - **v0.6.7**: Command directory structure organization; #8.
  - **v0.6.6**: Implement a reboot method (#6).
  - **v0.6.5**: Use logging instead of prints.
  - **v0.6.4**: Let Botpy users override commands and choose privileges.
