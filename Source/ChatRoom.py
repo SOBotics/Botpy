@@ -61,7 +61,7 @@ class ChatRoom(ce.rooms.Room):
         for priv in self._privilege_types:
             if max_privs is None:
                 max_privs = priv
-            elif priv.level > max_privs:
+            elif priv.level > max_privs.level:
                 max_privs = priv
 
         return max_privs
