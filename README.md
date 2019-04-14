@@ -25,9 +25,7 @@ Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io
 
 # Changelog
 
- - **v0.7.5**: Expose ChatExchange `send_aggressively` option; fix LICENSE copyright.
- - **v0.7.4**: Fixes privilege level bug.
- - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE.
+ - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE; fix LICENSE copyright.
  - **v0.7.4**: Fixes privilege level bug.
  - **v0.7.3**: Finally fixes the bug introduced in 0.6.7. All default commands have been moved to `AllCommands.py`; this also fixes #11. 
  - **v0.7.2**: Another attempt at 0.7.1.
