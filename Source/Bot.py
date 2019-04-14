@@ -24,8 +24,8 @@ from . import Redunda
 
 
 class Bot(ce.client.Client):
-    def __init__(self, bot_name, commands, room_ids, background_tasks=[], host='stackexchange.com', email=None, password=None):
-        super().__init__(host, email, password)
+    def __init__(self, bot_name, commands, room_ids, background_tasks=[], host='stackexchange.com', email=None, password=None, send_aggressively=False):
+        super().__init__(host, email, password, send_aggressively=send_aggressively)
 
         background_tasks.append(BackgroundTask(self._stop_reason_check, interval=5))
         background_tasks.append(BackgroundTask(self._save_users, interval=60))
