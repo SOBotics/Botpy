@@ -25,7 +25,7 @@ Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io
 
 # Changelog
 
- - **v0.7.4**: Allows the usage of the `send_aggressively` option in CE.
+ - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE.
  - **v0.7.3**: Finally fixes the bug introduced in 0.6.7. All default commands have been moved to `AllCommands.py`; this also fixes #11. 
  - **v0.7.2**: Another attempt at 0.7.1.
  - **v0.7.1**: Fixes bug introduced in 0.6.7.
