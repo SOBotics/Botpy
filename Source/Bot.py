@@ -45,6 +45,7 @@ class Bot(ce.client.Client):
         self._startup_message = self.name + " starting..."
         self._standby_message = "Switching to standby mode."
         self._failover_message = "Failover received."
+        self._on_event_callback = lambda: None
 
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
@@ -68,6 +69,15 @@ class Bot(ce.client.Client):
             logging.info('"location.txt" probably does not exist at: ' + self._storage_prefix)
         except ValueError as value_error:
             logging.error(str(value_error))
+
+    def add_event_callback(self, event_callback):
+        """
+        'event_callback' will now be called everytime a new event occurs in a room which the bot 
+            is present in.
+        """
+        if not callable(event_callback):
+            raise TypeError('Bot.add_event_callback: \'event_callback\' is not callable!')
+        self._on_event_callback = event_callback
 
     def add_alias(self, alias):
         """
@@ -360,6 +370,9 @@ class Bot(ce.client.Client):
         elif isinstance(event, ce.events.UserEntered):
             logging.info("(%s) %s (user id: %d) entered the room" % (event.room.name, event.user.name, event.user.id))
             event.room.add_user(event.user)
+
+        # Call event callback
+        self._on_event_callback(event)
 
     def _save_users(self):
         for room in self._rooms:
