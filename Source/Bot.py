@@ -45,7 +45,7 @@ class Bot(ce.client.Client):
         self._startup_message = self.name + " starting..."
         self._standby_message = "Switching to standby mode."
         self._failover_message = "Failover received."
-        self._on_event_callback = lambda: None
+        self._on_event_callback = lambda event: None
 
         background_tasks.append(BackgroundTask(self._command_manager.cleanup_finished_commands, interval=3))
         self._background_task_manager = BackgroundTaskManager(background_tasks)
