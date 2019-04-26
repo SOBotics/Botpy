@@ -1,17 +1,29 @@
 # Botpy
 
-A python framework for creating bots on the StackExchange network. Builds upon ChatExchange to create a nice framework to help you make bots without the nitty-gritty you would otherwise have.
+A python framework for creating bots on the StackExchange network.
+Builds upon ChatExchange to create a nice framework to help you make bots
+without the nitty-gritty you would otherwise have.
 
 Features:
 
- - ChatUser management, along with privilege levels. Set up privilege levels using a single line of code. Botpy also provides different privilege chat commands to get your privilege system up and running in seconds!
- - Command management, which you can easily extend with your own commands. Provides a simple template to make commands. Also provides a huge number of default commands you can configure.
- - Redunda support, to help you run multiple instances at the same time and also have backups of all your bot data.
- - A fully functional background task manager using threads, which allows you to add your own tasks. Automatically stops and starts tasks based on the status of the instance. 
+ - ChatUser management, along with privilege levels.
+   Set up privilege levels using a single line of code.
+   Botpy also provides different privilege chat commands to
+   get your privilege system up and running in seconds!
+ - Command management, which you can easily extend with your own commands.
+   Provides a simple template to make commands.
+   Also provides a huge number of default commands you can configure.
+ - Redunda support, to help you run multiple instances at the same time
+   and also have backups of all your bot data.
+ - A fully functional background task manager using threads,
+   which allows you to add your own tasks.
+   Automatically stops and starts tasks based on the status of the instance. 
 
 # Installation
 
-Botpy does not support any versions of Python before Python3. It has been thoroughly tested on Python 3.6 (and *should* work for 3.x).To install Botpy, run:
+Botpy does not support any versions of Python before Python3.
+It has been thoroughly tested on Python 3.6 (and *should* work for 3.x).
+To install Botpy, run:
 
     pip3.6 install BotpySE --user
 
@@ -21,14 +33,17 @@ or
 
 # Documentation
 
-Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io/en/latest/ 
+Some incomplete documentation of Botpy exists here: 
+https://botpy.readthedocs.io/en/latest/ 
 
 # Changelog
 
  - **v0.7.6**: Add optional event callback; #10.
- - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE; fix LICENSE copyright.
+ - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE;
+   fix LICENSE copyright.
  - **v0.7.4**: Fixes privilege level bug.
- - **v0.7.3**: Finally fixes the bug introduced in 0.6.7. All default commands have been moved to `AllCommands.py`; this also fixes #11. 
+ - **v0.7.3**: Finally fixes the bug introduced in 0.6.7.
+   All default commands have been moved to `AllCommands.py`; this also fixes #11. 
  - **v0.7.2**: Another attempt at 0.7.1.
  - **v0.7.1**: Fixes bug introduced in 0.6.7.
  - **v0.7.0**: Allow multiple aliases for a bot; #7.
@@ -41,7 +56,8 @@ Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io
  - **v0.6.1**: Add location support.
  - **v0.6.0**: Add Redunda support.
  - **v0.5.1**: Allow change of storage prefix.
- - **v0.5.0**: Huge overhaul; a lot has changed. Most classes now inherited from ChatExchange.
+ - **v0.5.0**: Huge overhaul; a lot has changed.
+   Most classes now inherited from ChatExchange.
  - **v0.4.3**: Misc Changes
  - **v0.3.10**: A bug fix in the reboot check background task.
  - **v0.3.9**: Missed uploading a file.
@@ -56,4 +72,5 @@ Some incomplete documentation of Botpy exists here: https://botpy.readthedocs.io
  - **v0.3.0**: Completed the privilege system by adding more commands.
  - **v0.2.5**: Finally fixed the bug fix for the bot name problem.
  - **v0.2.4**: Another possible bug fix for not allowing names with more than 4 chars.
- - **v0.2.3**: Possible bug fix for a bug which does not allow bot names with more than 4 letters.
+ - **v0.2.3**: Possible bug fix for a bug which does not allow bot names with
+   more than 4 letters.
