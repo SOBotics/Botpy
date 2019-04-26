@@ -38,6 +38,7 @@ https://botpy.readthedocs.io/en/latest/
 
 # Changelog
 
+ - **v0.7.7**: Fix default callback from 0.7.6.
  - **v0.7.6**: Add optional event callback; #10.
  - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE;
    fix LICENSE copyright.
