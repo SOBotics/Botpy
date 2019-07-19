@@ -31,6 +31,13 @@ or
 
     sudo -H pip3.6 install BotpySE
 
+Botpy depends on ChatExchange.
+Upstream has a slightly experimental facility called `send_aggressively`
+which is not yet part of an official release;
+if you wish to use this functionality,
+you will also need to install ChatExchange from source, not from PyPI.
+
+
 # Documentation
 
 Some incomplete documentation of Botpy exists here: 
@@ -38,6 +45,7 @@ https://botpy.readthedocs.io/en/latest/
 
 # Changelog
 
+ - **v0.7.8**: Fix behavior for ChatExchange from PyPI; document same
  - **v0.7.7**: Fix default callback from 0.7.6.
  - **v0.7.6**: Add optional event callback; #10.
  - **v0.7.5**: Allows the usage of the `send_aggressively` option in CE;
