@@ -33,8 +33,12 @@ def test(event):
     print(event)
     print("woot")
 
+def background_task(bot):
+    bot.post_global_message("this is a background task!")
+
 bot.add_event_callback(test)
 
 # Start the bot. The bot will run forever till a stop command is run. The reboot command will automatically reboot the bot.
 # All background tasks specified and those automatically added will continue running till the bot stops.
 bot.start()
+bot.add_background_task(bp.BackgroundTask(lambda: background_task(bot), interval=5))
