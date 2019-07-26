@@ -3,7 +3,7 @@ from distutils.core import setup
 setup (
     name = "BotpySE",
     packages = ["BotpySE"],
-    version = "0.7.8",
+    version = "0.7.9",
     description = "A python framework to create chatbots on the StackExchange network.",
     author = "Ashish Ahuja",
     author_email = "ashish.ahuja@sobotics.org",

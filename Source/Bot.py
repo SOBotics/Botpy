@@ -73,6 +73,15 @@ class Bot(ce.client.Client):
         except ValueError as value_error:
             logging.error(str(value_error))
 
+    def add_background_task(self, background_task):
+        """
+        Adds a BackgroundTask to be run.
+        Can be called after bot initialisation, even after the bot has started.
+        """
+        self._background_task_manager.add_background_task(background_task)
+        if (not self.at_standby and self.is_alive):
+            self._background_task_manager.restart_tasks()
+
     def add_event_callback(self, event_callback):
         """
         'event_callback' will now be called everytime a new event occurs in a room which the bot 
