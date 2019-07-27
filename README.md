@@ -45,6 +45,7 @@ https://botpy.readthedocs.io/en/latest/
 
 # Changelog
 
+ - **v0.7.10**: `post_global_message` now takes the `length_check` argument.
  - **v0.7.9**: Add wrapper function to add background tasks.
  - **v0.7.8**: Fix behavior for ChatExchange from PyPI; document same
  - **v0.7.7**: Fix default callback from 0.7.6.

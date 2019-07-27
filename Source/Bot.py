@@ -278,13 +278,13 @@ class Bot(ce.client.Client):
         for each_room in self._rooms:
             each_room.watch(self._handle_event)
 
-    def post_global_message(self, message):
+    def post_global_message(self, message, length_check=True):
         """
         Posts the argument message across all rooms the bot is in.
         """
         for id in self._ids:
             room = self.get_room(id)
-            room.send_message(message)
+            room.send_message(message, length_check=length_check)
 
     def add_privilege_type(self, privilege_level, privilege_name):
         for each_room in self._rooms:
