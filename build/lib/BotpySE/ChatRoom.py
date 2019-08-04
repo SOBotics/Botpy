@@ -8,7 +8,6 @@
 
 import chatexchange as ce
 import os
-import pickle
 import weakref
 
 from . import ChatUser

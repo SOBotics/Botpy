@@ -14,7 +14,6 @@ from . import ChatUser
 from . import Utilities
 
 import os
-import pickle
 import json
 import jsonpickle as jp
 

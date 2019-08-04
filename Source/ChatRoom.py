@@ -7,7 +7,6 @@
 #
 
 import os
-import pickle
 import weakref
 import logging
 

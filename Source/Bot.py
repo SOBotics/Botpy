@@ -399,9 +399,6 @@ class Bot(ce.client.Client):
             except IOError as ioerr:
                 logging.error("IOError occurred: ")
                 logging.error(str(ioerr))
-            except pickle.PickleError as perr:
-                logging.error("Pickling error occurred: ")
-                logging.error(str(perr))
 
     def _load_users(self):
         for room in self._rooms:
@@ -415,9 +412,6 @@ class Bot(ce.client.Client):
             except IOError as ioerr:
                 logging.error("IOError occurred: ")
                 logging.error(str(ioerr))
-            except pickle.PickleError as perr:
-                logging.error("Pickling error occurred: ")
-                logging.error(str(perr))
 
     def _convert_to_save_filename(self, id):
         return self._storage_prefix + self.name.replace(' ', '_') + '_room_' + str(id) + '_data'
