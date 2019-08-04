@@ -21,7 +21,7 @@ class PrivilegedChatUser:
         self.block = False
 
     def is_privileged(self, privilege_required):
-        if self.privilege_level >= privilege_required and not self.block:
+        if self.level >= privilege_required and not self.block:
             return True
 
         return False
