@@ -31,7 +31,7 @@ class CommandManager:
 
     def handle_command(self, message):
         try:
-            message_content = message.content.lower().split()
+            message_content = message.content.split()
             del message_content[0]
         except AttributeError:
             return
@@ -63,7 +63,8 @@ class CommandManager:
                     elif content_component != usage_component:
                         match = False
 
-                    min_count = (len(usage_components) - 1) if (usage_components[-1] == '...') else len(usage_components)
+                    min_count = len(usage_components) - 1 \
+                        if usage_components[-1] == '...' else len(usage_components)
                     if len(message_content) < min_count:
                         match = False
                 if match:
