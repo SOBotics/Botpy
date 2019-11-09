@@ -49,6 +49,7 @@ Table of Contents
   overview
   privilege_system
   commands
+  background_tasks
 
 .. _official site: http://www.wtfpl.net/
 .. _license text: https://github.com/SOBotics/Botpy/blob/master/LICENSE

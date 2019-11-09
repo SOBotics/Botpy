@@ -27,9 +27,7 @@ Each command has a minimum grant level, which can be configured as you wish (see
 
 A user's privileges can be changed by using the  
 
-.. note:: If you plan on using a privilege system in your bot, it is recommended to set the grant levels of the command to privilege and unprivilege users at the highest level. Without that, users without privileges would be able to increase their grant level and run all commands, which would defeat the purpose of the privilege system.
-
-.. warning:: Setting a command's grant level higher than the maximum grant level of the privilege levels will render the command unusable, even for users with the highest privileges. Do not do this.  
+.. warning:: Setting a command's grant level higher than the maximum grant level of the privilege levels will render the command unusable, even for users with the highest privileges.  
 
 .. note:: User privileges are room based. This means that a user with privileges or an RO with privileges in one room will not have privileges in another unless added. 
 
@@ -57,7 +55,7 @@ Example code to implement two privilege levels follows.
 
 The two privilege types have now been added!
 
-.. note:: Add privilege levels only *after* the bot has started, or else the bot will most probably crash.
+.. note:: Add privilege levels only *after* the bot has started.
 
 Granting all room owners maximum privileges
 -------------------------------------------

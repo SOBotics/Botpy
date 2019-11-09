@@ -1,7 +1,7 @@
 Overview
 ========
 
-This section will provide a small introduction to headstart you understanding Botpy. At the end, we will construct a simple chatbot.
+This section covers the paramters of the Bot object, and constructs a simple chatbot at the end.
 
 The Bot Object
 --------------
@@ -24,8 +24,6 @@ First, you have to initialise a :code:`Bot` which is defined as follows:
 
   1. All commands which can be run by the bot will have to be listed in this argument. 
   2. The command will have appropriate functions for command usage, privileges and code to be run on invocation. Look at the commands section in the User Guide for more information on writing commands.
-
-.. warning:: Objects passed through this argument which do not adhere to the given command format will lead to the bot malfunctioning to an extent which cannot be predicted.
 
 3. :code:`room_ids` is a list consisting of room ids the bot should join.
 
