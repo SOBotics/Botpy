@@ -1,5 +1,3 @@
-.. _quickstart:
-
 The Privilege System
 ====================
 
