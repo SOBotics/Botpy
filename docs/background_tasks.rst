@@ -14,7 +14,7 @@ A single instance of a background task is defined by the :code:`BackgroundTask` 
 
 .. _bg_task_source: https://github.com/SOBotics/Botpy/blob/master/Source/BackgroundTask.py
 
-..code:: python
+.. code:: python
 
     __init__(self, function_callback, interval=30)
 
@@ -27,13 +27,13 @@ Background Task Manager
 
 All background tasks are handled by the background task manager. The function :code:`add_background_task` in the Bot class adds a background task to the background task manager of the bot.
 
-::code:: python
+.. code:: python
     
     add_background_task(self, background_task)
 
 An example in practice can be seen below.
 
-::code:: python
+.. code:: python
 
     import BotpySE as bp
 
